@@ -44,11 +44,8 @@ namespace TatBlog.Services.Blogs
             }
             // bất đồng bộ sử dụng await để tách hai hàm ra với nhau dể sử lí hơn 
             return await postsQuery.FirstOrDefaultAsync(cancellationToken);
-           // throw new NotImplementedException();
-        }
-
-        // thực thi câu truy vấn 
-   
+           
+        }   
 
         // tìm một bài post top N bài viết được moiij người xem nhất 
         public async Task<IList<Post>> GetPopularArticlesAsync(int numPosts, CancellationToken cancellationToken = default)

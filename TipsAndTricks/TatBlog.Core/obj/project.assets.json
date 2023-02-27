@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
+      "projectUniqueName": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
       "projectName": "TatBlog.Core",
-      "projectPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
+      "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\obj\\",
+      "outputPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",

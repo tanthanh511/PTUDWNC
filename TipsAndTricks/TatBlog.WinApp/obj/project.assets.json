@@ -3362,11 +3362,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.WinApp\\TatBlog.WinApp.csproj",
+      "projectUniqueName": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.WinApp\\TatBlog.WinApp.csproj",
       "projectName": "TatBlog.WinApp",
-      "projectPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.WinApp\\TatBlog.WinApp.csproj",
+      "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.WinApp\\TatBlog.WinApp.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.WinApp\\obj\\",
+      "outputPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.WinApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3383,14 +3383,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
-              "projectPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
+            "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
+              "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
             },
-            "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
-              "projectPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj"
+            "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
+              "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj"
             },
-            "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {
-              "projectPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj"
+            "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {
+              "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj"
             }
           }
         }

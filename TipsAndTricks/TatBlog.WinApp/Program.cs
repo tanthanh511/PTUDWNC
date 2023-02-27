@@ -13,27 +13,37 @@ int menu;
 Console.WriteLine("1. xuất dữ liệu của bảng ");
 Console.WriteLine("2. xuất dữ liệu của tác giả và tiêu đề ");
 Console.WriteLine("3. xuất dữ liệu bài viết có người tim nhiều nhất.");
+Console.WriteLine("4. xuất dữ liệu 9/2021 có slug là ASP.NET");
 Console.WriteLine("0. thoat ");
 Console.Write("bạn nhap tai đây: ");
 
 menu = Convert.ToInt32(Console.ReadLine());
 Console.WriteLine(" số bạn vừa nhập là:" + menu);
-xuatMenu(menu);
+await xuatMenu(menu);
+
 if (menu < 0 || menu > 10)
 {
 
     Console.WriteLine("vui lòng nhập lại!");
     menu = Convert.ToInt32(Console.ReadLine());
-    xuatMenu(menu);
+    await xuatMenu(menu);
+    //xuatMenu(menu);
 }
+// dùng bất đồng bộ thì phải dùng readkey hoặc dùng task 
+//Console.ReadKey();
 
 
 
-
-
-
-static async void xuatMenu(int menu)
+static async Task xuatMenu(int menu)
+//static async void xuatMenu(int menu)
 {
+
+    var context = new BlogDbContext();
+
+    //tạo đối tượng blogRepossitory
+    IBlogRepository blogRepo = new BlogRepository(context);
+    // tim 2  bai viet xem doc nhiu
+
 
     switch (menu)
     {
@@ -51,24 +61,30 @@ static async void xuatMenu(int menu)
         case 3:
             Console.WriteLine(" xuất dữ liệu bài viết có nhiều ng xem nhất ");
 
-            var context = new BlogDbContext();
+            var posts = await blogRepo.GetPopularArticlesAsync(2);
 
-            //tạo đối tượng blogRepossitory
-            IBlogRepository blogRepo = new BlogRepository(context);
-           // tim 2  bai viet xem doc nhiu
 
-             var posts = await blogRepo.GetPopularArticlesAsync(2);
-
-            foreach (var post in posts)
+            foreach (var postP in posts)
             {
-                Console.WriteLine("ID      :{0}", post.Id);
-                Console.WriteLine("Tiltel  :{0}", post.Title);
-                Console.WriteLine("View    :{0}", post.Viewcount);
-                Console.WriteLine("Date    :{0:MM/dd/yyyy}", post.PostedDate);
-                Console.WriteLine("Author  :{0}", post.Author.FullName);
-                Console.WriteLine("Category:{0}", post.Category.Name);
+                Console.WriteLine("ID      :{0}", postP.Id);
+                Console.WriteLine("Tiltel  :{0}", postP.Title);
+                Console.WriteLine("View    :{0}", postP.Viewcount);
+                Console.WriteLine("Date    :{0:MM/dd/yyyy}", postP.PostedDate);
+                Console.WriteLine("Author  :{0}", postP.Author.FullName);
+                Console.WriteLine("Category:{0}", postP.Category.Name);
                 Strikethrough(120);
             }
+            break;
+        case 4:
+            Console.WriteLine("xuất dữ liệu 9/2021 có slug là ASP.NET");
+            var post = await blogRepo.GetPostAsync(2021, 9, "ASP.NET");
+            Console.WriteLine("ID      :{0}", post.Id);
+            Console.WriteLine("Tiltel  :{0}", post.Title);
+            Console.WriteLine("View    :{0}", post.Viewcount);
+            Console.WriteLine("Date    :{0:MM/dd/yyyy}", post.PostedDate);
+            Console.WriteLine("Author  :{0}", post.Author.FullName);
+            Console.WriteLine("Category:{0}", post.Category.Name);
+            Strikethrough(120);
             break;
         default:
 
@@ -76,9 +92,6 @@ static async void xuatMenu(int menu)
 
     }
 }
-
-
-
 
 
 

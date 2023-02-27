@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {}
+    "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {}
   },
   "projects": {
-    "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
+    "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
+        "projectUniqueName": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
         "projectName": "TatBlog.Core",
-        "projectPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
+        "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\obj\\",
+        "outputPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -58,14 +58,14 @@
         }
       }
     },
-    "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
+    "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj",
+        "projectUniqueName": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj",
         "projectName": "TatBlog.Data",
-        "projectPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj",
+        "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Data\\obj\\",
+        "outputPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -82,8 +82,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
-                "projectPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
+              "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
+                "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
               }
             }
           }
@@ -132,14 +132,14 @@
         }
       }
     },
-    "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {
+    "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj",
+        "projectUniqueName": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj",
         "projectName": "TatBlog.Services",
-        "projectPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj",
+        "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Services\\obj\\",
+        "outputPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -156,11 +156,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
-                "projectPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
+              "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
+                "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
               },
-              "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
-                "projectPath": "D:\\webnangcao\\baitap\\file_BT\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj"
+              "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
+                "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj"
               }
             }
           }
