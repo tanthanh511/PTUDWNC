@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
 using TatBlog.Data.Contexts;
+using TatBlog.Core.Contracts;
+using TatBlog.Services.Extensions;
 
 namespace TatBlog.Services.Blogs
 {
@@ -81,6 +84,50 @@ namespace TatBlog.Services.Blogs
             //throw new NotImplementedException();
         }
 
-      
+
+        // lấy danh sách chuyên mục và sô lượng bài viết và nảm thuộc từng chuyên mục chủ đề
+        public async Task<IList<CategoryItem>> GetCategoriesAsync(bool showOnMenu = false, CancellationToken cancellationToken = default)
+        {
+            IQueryable<Category> categories = _context.Set<Category>();
+            if( showOnMenu)
+            {
+                categories = categories.Where(x => x.ShowOnMenu == showOnMenu); 
+            }
+            return await categories
+                .OrderBy(x => x.Id)
+                .Select(x=> new CategoryItem()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSlug = x.UrlSlug,
+                    Description = x.Description,
+                    ShowOnMenu = x.ShowOnMenu,
+                    PostCount = x.Posts.Count(p=> p.Publisded)
+                })
+                .ToListAsync(cancellationToken);  
+
+        }
+
+        //lấy danh sach tu khao the va phan trang 
+
+        public async Task<IPagedList<TagItem>> GetPagedTagsAsync(
+            IPagingParams pagingParams,
+            CancellationToken cancellationToken = default)
+        {
+            var tagQuery = _context.Set<Tag>()
+                .Select(x => new TagItem()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSlug= x.UrlSlug,
+                    Description= x.Description,
+                    PostCount = x.Posts.Count(p=> p.Publisded)
+                });
+            return await tagQuery
+                .ToPagedListAsync(pagingParams, cancellationToken);
+        }
+
+
+
     }
 }

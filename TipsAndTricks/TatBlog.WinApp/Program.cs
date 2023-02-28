@@ -3,6 +3,8 @@ using System.Text;
 using TatBlog.Data.Contexts;
 using TatBlog.Data.Seeders;
 using TatBlog.Services.Blogs;
+using TatBlog.WinApp;
+
 
 
 // hàm tiếng việt 
@@ -14,11 +16,14 @@ Console.WriteLine("1. xuất dữ liệu của bảng ");
 Console.WriteLine("2. xuất dữ liệu của tác giả và tiêu đề ");
 Console.WriteLine("3. xuất dữ liệu bài viết có người tim nhiều nhất.");
 Console.WriteLine("4. xuất dữ liệu 9/2021 có slug là ASP.NET");
+Console.WriteLine("5. tăng view");
+Console.WriteLine("6. xuất danh sách chuyên mục và số lượng bài post.");
+Console.WriteLine("7. lay danh sach tu khoa");
 Console.WriteLine("0. thoat ");
 Console.Write("bạn nhap tai đây: ");
 
 menu = Convert.ToInt32(Console.ReadLine());
-Console.WriteLine(" số bạn vừa nhập là:" + menu);
+Console.WriteLine(" số bạn vừa5 nhập là:" + menu);
 await xuatMenu(menu);
 
 if (menu < 0 || menu > 10)
@@ -29,7 +34,7 @@ if (menu < 0 || menu > 10)
     await xuatMenu(menu);
     //xuatMenu(menu);
 }
-// dùng bất đồng bộ thì phải dùng readkey hoặc dùng task 
+// dùng bất đồng bộ thì phải dùng readkey hoặc dùng task để chờ lấy dữ liệu
 //Console.ReadKey();
 
 
@@ -43,8 +48,6 @@ static async Task xuatMenu(int menu)
     //tạo đối tượng blogRepossitory
     IBlogRepository blogRepo = new BlogRepository(context);
     // tim 2  bai viet xem doc nhiu
-
-
     switch (menu)
     {
         case 0:
@@ -86,6 +89,47 @@ static async Task xuatMenu(int menu)
             Console.WriteLine("Category:{0}", post.Category.Name);
             Strikethrough(120);
             break;
+        case 5:
+            Console.WriteLine(" tang view cho mot bai viet.");
+            // var postV = await blogRepo.IncreaseViewCountAsync();
+            Console.WriteLine("ID      :{0}", blogRepo.IncreaseViewCountAsync(1));
+            //Console.WriteLine("Tiltel  :{0}", postV.Title);
+            //Console.WriteLine("View    :{0}", postV.Viewcount);
+            //Console.WriteLine("Date    :{0:MM/dd/yyyy}", postV.PostedDate);
+            //Console.WriteLine("Author  :{0}", postV.Author.FullName);
+            //Console.WriteLine("Category:{0}", postV.Category.Name);
+            break;
+        case 6:
+            Console.WriteLine("lấy danh sách chuyên mục va dem so luong");
+            var categories = await blogRepo.GetCategoriesAsync();
+            Console.WriteLine("{0,-5}{1,-50}{2,10}", "ID", "Name", "Count");
+            foreach (var category in categories)
+            {
+                Console.WriteLine("{0,-5}{1,-50}{2,10}", category.Id, category.Name, category.PostCount);
+
+            }
+            break;
+        case 7:
+            Console.WriteLine("lay tu khoa");
+            var pagingParams = new PagingParams
+            {
+                PageNumber = 1, // lấy kết quả ở trang số 1 
+                PageSize = 4, //lấy 4 mẫu tin 
+                SortColumn = "Name", //sắp xếp theo tên 
+                SortOrder = "DESC" // theo chiều giảm dần 
+            };
+            // lấy danh sách từ khóa 
+            var tagsList = await blogRepo.GetPagedTagsAsync(pagingParams);
+
+            Console.WriteLine("{0,-5}{1,-50}{2,10}",
+                "ID", "Name", "Count");
+            foreach (var item in tagsList)
+            {
+                Console.WriteLine("{0,-5}{1,-50}{2,10}",
+                    item.Id, item.Name, item.PostCount);
+            }
+            break;
+
         default:
 
             break;
@@ -163,10 +207,7 @@ static void AuthorAndTiltle()
     }
 }
 
-
-
-
-
-
-
-
+//Task NewMethod(IBlogRepository blogRepo)
+//{
+//    return blogRepo.IncreaseViewCountAsync(1);
+//}

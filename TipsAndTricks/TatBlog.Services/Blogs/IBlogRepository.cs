@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TatBlog.Core.Entities;
+using TatBlog.Core.DTO;
+using TatBlog.Core.Contracts;
 
 namespace TatBlog.Services.Blogs;
 
@@ -34,8 +36,16 @@ public interface IBlogRepository
     Task IncreaseViewCountAsync(
         int postID,
         CancellationToken cancellationToken = default);
-       
-    //
+
+    // lấy danh sách chủ đề 
+    Task<IList<CategoryItem>> GetCategoriesAsync(
+        bool showOnMenu = false,
+        CancellationToken cancellationToken= default);
+
+    // lấy danh sách từ khóa/ thẻ và phân trang theo các tham số pagingParams
+    Task<IPagedList<TagItem>> GetPagedTagsAsync(
+        IPagingParams pagingParams,
+        CancellationToken cancellationToken = default);
 
         
 }

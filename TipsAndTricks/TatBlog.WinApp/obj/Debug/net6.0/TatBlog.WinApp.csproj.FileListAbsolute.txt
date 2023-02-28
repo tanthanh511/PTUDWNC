@@ -152,3 +152,4 @@ D:\webnangcao\git\PTUDWNC\TipsAndTricks\TatBlog.WinApp\obj\Debug\net6.0\refint\T
 D:\webnangcao\git\PTUDWNC\TipsAndTricks\TatBlog.WinApp\obj\Debug\net6.0\TatBlog.WinApp.pdb
 D:\webnangcao\git\PTUDWNC\TipsAndTricks\TatBlog.WinApp\obj\Debug\net6.0\TatBlog.WinApp.genruntimeconfig.cache
 D:\webnangcao\git\PTUDWNC\TipsAndTricks\TatBlog.WinApp\obj\Debug\net6.0\ref\TatBlog.WinApp.dll
+D:\webnangcao\git\PTUDWNC\TipsAndTricks\TatBlog.WinApp\bin\Debug\net6.0\System.Linq.Dynamic.Core.dll
