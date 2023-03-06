@@ -46,6 +46,12 @@ public interface IBlogRepository
     Task<IPagedList<TagItem>> GetPagedTagsAsync(
         IPagingParams pagingParams,
         CancellationToken cancellationToken = default);
+    //
+    Task<Tag> GetTagAsync(string slug , CancellationToken cancellationToken = default);
 
-        
+    // lấy danh sách tất cả tag kèm theo sô bài viết 
+    Task<IList<TagItem>> GetAllByTagNumberAsync(CancellationToken cancellation = default);
+
+    // xóa một thẻ theo mã cho trước 
+    Task<bool> TagDeleteByID(int id, CancellationToken cancellationToken = default);
 }

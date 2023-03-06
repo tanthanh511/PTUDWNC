@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {}
+    "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {}
   },
   "projects": {
-    "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
+    "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
+        "projectUniqueName": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
         "projectName": "TatBlog.Core",
-        "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\obj\\",
+        "projectPath": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj",
+        "packagesPath": "C:\\Users\\Thanh\\.nuget\\packages\\",
+        "outputPath": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -45,7 +45,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -54,21 +55,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
+    "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj",
+        "projectUniqueName": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj",
         "projectName": "TatBlog.Data",
-        "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\obj\\",
+        "projectPath": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj",
+        "packagesPath": "C:\\Users\\Thanh\\.nuget\\packages\\",
+        "outputPath": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -82,8 +83,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
-                "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
+              "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
+                "projectPath": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
               }
             }
           }
@@ -105,12 +106,6 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[7.0.3, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[7.0.3, )"
             }
           },
           "imports": [
@@ -119,7 +114,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -128,21 +124,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {
+    "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj",
+        "projectUniqueName": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj",
         "projectName": "TatBlog.Services",
-        "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\obj\\",
+        "projectPath": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\TatBlog.Services.csproj",
+        "packagesPath": "C:\\Users\\Thanh\\.nuget\\packages\\",
+        "outputPath": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -156,11 +152,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
-                "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
+              "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj": {
+                "projectPath": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Core\\TatBlog.Core.csproj"
               },
-              "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
-                "projectPath": "D:\\webnangcao\\git\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj"
+              "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj": {
+                "projectPath": "D:\\webnangcao\\lab\\PTUDWNC\\TipsAndTricks\\TatBlog.Data\\TatBlog.Data.csproj"
               }
             }
           }
@@ -186,7 +182,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -195,7 +192,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -17,19 +17,12 @@ namespace TatBlog.Data.Contexts
         public DbSet<Post> posts { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // optionsBuilder.UseSqlServer(@"sever=LAPTOP-8GVB00GD;Database=Tatblog;Trusted_Connection=True;MultipleActiveResultSets=true");
-            optionsBuilder.UseSqlServer(@"Data Source=LAPTOP-8GVB00GD;Initial Catalog=Tatblog;Integrated Security=True;TrustServerCertificate=true;MultipleActiveResultSets=true;");
-           
-
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-62GFOD9;Initial Catalog=Tatblog;Integrated Security=True;MultipleActiveResultSets = true;TrustServerCertificate = True");                            
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(CategoryMap).Assembly);
         }
-            
-
-
-
     }
 }

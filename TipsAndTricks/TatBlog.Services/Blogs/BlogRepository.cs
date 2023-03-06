@@ -128,6 +128,53 @@ namespace TatBlog.Services.Blogs
         }
 
 
+        // tìm một thẻ tag có định danh là slug
+        public async Task<Tag> GetTagAsync(string slug, CancellationToken cancellationToken = default)
+        {
+
+            IQueryable<Tag> tagsQuery = _context.Set<Tag>();
+            if (!string.IsNullOrWhiteSpace(slug))
+            {
+                tagsQuery = tagsQuery.Where(x => x.UrlSlug == slug);
+            }
+            return await tagsQuery.FirstOrDefaultAsync(cancellationToken);
+        }
+
+        // lấy danh sách thẻ tag kèm theo số bài viết chứa thẻ đó
+        public async Task<IList<TagItem>> GetAllByTagNumberAsync(CancellationToken cancellationToken = default)
+        {
+            var tagsItemQuery = _context.Set<Tag>();
+            return await tagsItemQuery
+                .OrderBy(x => x.Name)
+                .Select(x => new TagItem()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSlug = x.UrlSlug,
+                    Description = x.Description,
+                    PostCount = x.Posts.Count(p => p.Publisded)
+                }).ToListAsync(cancellationToken);
+                
+                
+                
+        }
+
+        public async Task<bool> TagDeleteByID(int id, CancellationToken cancellationToken = default)
+        {
+            await _context.Database
+                .ExecuteSqlRawAsync("DELETE FROM PostTags WHERE TagId = " + id, cancellationToken);
+
+            await _context.Database
+                .ExecuteSqlRawAsync("DELETE FROM Tags WHERE Id = " + id, cancellationToken);
+
+
+            var rows = await _context.Set<Tag>()
+                .Where(x => x.Id == id)
+                .ExecuteDeleteAsync(cancellationToken);
+
+            return rows > 0;
+        }
+
 
     }
 }

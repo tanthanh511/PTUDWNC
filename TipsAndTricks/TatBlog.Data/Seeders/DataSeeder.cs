@@ -106,6 +106,26 @@ namespace TatBlog.Data.Seeders
                         tags[0]
                     }
 
+                },
+                
+                new()
+                {
+                    Title="EFCore",
+                    ShortDesciption="EFCore là một mã nguồn mở",
+                    Description="EFCore là một mã nguồn mở dành cho web được tạo bởi Microsoft. Hiện mã nguồn này chạy trên nền tảng Windows và được bắt đầu vào đầu những năm 2000. ASP.NET cho phép các nhà phát triển tạo các ứng dụng web, dịch vụ web và các trang web động.",
+                    Meta="Phiên bản EFCore đầu tiên được triển khai là 1.0 được ra mắt vào tháng 1 năm 2002 và hiện nay, phiên bản ASP.NET mới nhất là 4.6. ASP.NET được phát triển để tương thích với giao thức HTTP. Đó là giao thức chuẩn được sử dụng trên tất cả các ứng dụng web.",
+                    UrlSlug="EFCore",
+                    Publisded=true,
+                    PostedDate= new DateTime(2021, 10, 30, 10, 20, 0),
+                    ModifiedDate= null,
+                    Viewcount=30,
+                    Author = authors[1],
+                    Category= categories[1],
+                    Tags= new List<Tag>()
+                    {
+                        tags[1]
+                    }
+
                 }
             };
             _dbContext.AddRange(posts);

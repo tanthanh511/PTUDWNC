@@ -4,6 +4,7 @@ using TatBlog.Data.Contexts;
 using TatBlog.Data.Seeders;
 using TatBlog.Services.Blogs;
 using TatBlog.WinApp;
+using TatBlog.Core.Entities;
 
 
 
@@ -19,6 +20,9 @@ Console.WriteLine("4. xuất dữ liệu 9/2021 có slug là ASP.NET");
 Console.WriteLine("5. tăng view");
 Console.WriteLine("6. xuất danh sách chuyên mục và số lượng bài post.");
 Console.WriteLine("7. lay danh sach tu khoa");
+Console.WriteLine("8. xuất dữ liệu Tag slug là ASP.NET");
+Console.WriteLine("9. xuất ra all tag và số bài viết.");
+Console.WriteLine("10. xóa tag có ID=1.");
 Console.WriteLine("0. thoat ");
 Console.Write("bạn nhap tai đây: ");
 
@@ -42,12 +46,11 @@ if (menu < 0 || menu > 10)
 static async Task xuatMenu(int menu)
 //static async void xuatMenu(int menu)
 {
-
     var context = new BlogDbContext();
 
     //tạo đối tượng blogRepossitory
     IBlogRepository blogRepo = new BlogRepository(context);
-    // tim 2  bai viet xem doc nhiu
+
     switch (menu)
     {
         case 0:
@@ -130,6 +133,35 @@ static async Task xuatMenu(int menu)
             }
             break;
 
+        case 8:
+            Console.WriteLine("xuất dữ liệu Tag slug là GOOGLE");
+            var tag = await blogRepo.GetTagAsync("GOOGLE");
+            Console.WriteLine("ID      :{0}", tag.Id);
+            Console.WriteLine("Name  :{0}", tag.Name);
+            Console.WriteLine("Slug    :{0}", tag.UrlSlug);
+            Console.WriteLine("Description:{0}", tag.Description);
+            Strikethrough(120);
+            break;
+
+        case 9:
+            Console.WriteLine("asdasdsadasd");
+            var tagItem = await blogRepo.GetAllByTagNumberAsync();
+            foreach (var all in tagItem)
+            {
+                Console.WriteLine("ID      :{0}", all.Id);
+                Console.WriteLine("Name  :{0}", all.Name);
+                Console.WriteLine("Slug    :{0}", all.UrlSlug);
+                Console.WriteLine("Description:{0}", all.Description);
+                Console.WriteLine("Post Count:{0}", all.PostCount);
+                Strikethrough(120);
+            }
+            break;
+        case 10:
+            Console.WriteLine("Xóa tag có ID = 1");
+            var DelTag = await blogRepo.TagDeleteByID(1);
+
+            break;
+
         default:
 
             break;
@@ -175,6 +207,7 @@ static void ReadData()
 
 }
 
+
 static void AuthorAndTiltle()
 {
     // tạo context để quản lí phiên làm việc với  CSDL và trạng thái 
@@ -210,4 +243,4 @@ static void AuthorAndTiltle()
 //Task NewMethod(IBlogRepository blogRepo)
 //{
 //    return blogRepo.IncreaseViewCountAsync(1);
-//}
+
