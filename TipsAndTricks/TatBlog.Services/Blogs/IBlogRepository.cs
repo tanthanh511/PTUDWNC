@@ -15,43 +15,86 @@ public interface IBlogRepository
 
     // tìm bài viết có định danh là slug 
     // được đăn vào tháng và năm 
+    #region
     Task<Post> GetPostAsync(
         int year,
         int month,
         string slug,
         CancellationToken cancellationToken = default);
+    #endregion
 
     // tim top N bai viet pho bien duoc nhiu nguoi xem nha
     // task chức năng giống thread cũng là xử lí đa luồng nhưng task hỗ trợ thư viện sẵn nên dùng task lun ^_^
+    #region
     Task<IList<Post>> GetPopularArticlesAsync(
         int numPosts,
         CancellationToken cancellationToken = default);
+    #endregion
 
     // kiểm tra xem tên của bài viết đã có hay chưa 
+    #region
     Task<bool> IsPostSlugExistedAsync(
         int postID, string slug,
         CancellationToken cancellationToken = default);
+    #endregion
 
     // tăng số lượng xem của một bài viết 
+    #region
     Task IncreaseViewCountAsync(
         int postID,
         CancellationToken cancellationToken = default);
-
-    // lấy danh sách chủ đề 
+    #endregion
+ 
+    #region"lấy danh sách chủ đề "
     Task<IList<CategoryItem>> GetCategoriesAsync(
         bool showOnMenu = false,
         CancellationToken cancellationToken= default);
+    #endregion
 
-    // lấy danh sách từ khóa/ thẻ và phân trang theo các tham số pagingParams
+    #region"lấy danh sách từ khóa/ thẻ và phân trang theo các tham số pagingParams"
     Task<IPagedList<TagItem>> GetPagedTagsAsync(
         IPagingParams pagingParams,
         CancellationToken cancellationToken = default);
-    //
+    #endregion
+
+    #region"lấy tag có định danh bằng slug"
     Task<Tag> GetTagAsync(string slug , CancellationToken cancellationToken = default);
+    #endregion
 
-    // lấy danh sách tất cả tag kèm theo sô bài viết 
+    #region"lấy danh sách tất cả tag kèm theo sô bài viết "
     Task<IList<TagItem>> GetAllByTagNumberAsync(CancellationToken cancellation = default);
+    #endregion
 
-    // xóa một thẻ theo mã cho trước 
-    Task<bool> TagDeleteByID(int id, CancellationToken cancellationToken = default);
+    #region"xóa một thẻ theo mã cho trước "
+    Task<bool> TagDeleteByID(
+        int id,
+        CancellationToken cancellationToken = default);
+    #endregion
+
+    #region"tìm chuyên mục category theo định danh slug"
+    Task<Category> GetCategorybySlugAsync(
+        string slug,
+        CancellationToken cancellationToken = default);
+    #endregion
+
+    #region"tìm một chuyên mục theo mã cho trước"
+    Task<Category> GetCategoryByID(
+        int id,
+        CancellationToken cancellationToken = default);
+    #endregion
+
+    #region"kiểm tra chuyên mục đã có hay chưa"
+    Task<bool> IsCategorySlugExistedAsync(
+        int id, 
+        string slug, 
+        CancellationToken cancellationToken = default);
+
+    #endregion
+
+    #region"ham them hoac sua category"
+    Task AddOrUpdateCategory(
+        Category category, 
+        CancellationToken cancellationToken = default);
+    #endregion
 }
+

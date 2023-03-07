@@ -5,32 +5,46 @@ using TatBlog.Data.Seeders;
 using TatBlog.Services.Blogs;
 using TatBlog.WinApp;
 using TatBlog.Core.Entities;
+using Microsoft.EntityFrameworkCore;
 
-
-
-// hàm tiếng việt 
+#region"hàm tiếng việt"
 Console.OutputEncoding = Encoding.UTF8;
+#endregion
 
+#region"dấu gạch ngang"
+static async void Strikethrough(int a)
+{
+    Console.WriteLine("".PadRight(a, '-'));
+
+}
+#endregion
+
+#region"hàm menu"
 // MENU 
 int menu;
-Console.WriteLine("1. xuất dữ liệu của bảng ");
-Console.WriteLine("2. xuất dữ liệu của tác giả và tiêu đề ");
-Console.WriteLine("3. xuất dữ liệu bài viết có người tim nhiều nhất.");
-Console.WriteLine("4. xuất dữ liệu 9/2021 có slug là ASP.NET");
-Console.WriteLine("5. tăng view");
-Console.WriteLine("6. xuất danh sách chuyên mục và số lượng bài post.");
-Console.WriteLine("7. lay danh sach tu khoa");
-Console.WriteLine("8. xuất dữ liệu Tag slug là ASP.NET");
-Console.WriteLine("9. xuất ra all tag và số bài viết.");
+Console.WriteLine("1.  xuất dữ liệu của bảng ");
+Console.WriteLine("2.  xuất dữ liệu của tác giả và tiêu đề ");
+Console.WriteLine("3.  xuất dữ liệu bài viết có người tim nhiều nhất.");
+Console.WriteLine("4.  xuất dữ liệu 9/2021 có slug là ASP.NET");
+Console.WriteLine("5.  tăng view");
+Console.WriteLine("6.  xuất danh sách chuyên mục và số lượng bài post.");
+Console.WriteLine("7.  lay danh sach tu khoa");
+Console.WriteLine("8.  xuất dữ liệu Tag slug là ASP.NET");
+Console.WriteLine("9.  xuất ra all tag và số bài viết.");
 Console.WriteLine("10. xóa tag có ID=1.");
-Console.WriteLine("0. thoat ");
+Console.WriteLine("11. xuất chuyên mục slug là ....");
+Console.WriteLine("12. tìm chuyên mục có ID:2 ");
+Console.WriteLine("13. thêm một chuyên mục");
+Console.WriteLine("0.  thoat ");
 Console.Write("bạn nhap tai đây: ");
 
 menu = Convert.ToInt32(Console.ReadLine());
 Console.WriteLine(" số bạn vừa5 nhập là:" + menu);
 await xuatMenu(menu);
+#endregion
 
-if (menu < 0 || menu > 10)
+#region"điều kiện menu"
+if (menu < 0 || menu > 20)
 {
 
     Console.WriteLine("vui lòng nhập lại!");
@@ -40,37 +54,89 @@ if (menu < 0 || menu > 10)
 }
 // dùng bất đồng bộ thì phải dùng readkey hoặc dùng task để chờ lấy dữ liệu
 //Console.ReadKey();
+#endregion
 
-
-
+#region"xuất menu"
 static async Task xuatMenu(int menu)
 //static async void xuatMenu(int menu)
 {
-    var context = new BlogDbContext();
 
+    #region"hàm dùng chung để tạo phiên làm việc với csdl"
+    // tạo context để quản lí phiên làm việc với  CSDL và trạng thái 
+    var context = new BlogDbContext();
     //tạo đối tượng blogRepossitory
     IBlogRepository blogRepo = new BlogRepository(context);
+    #endregion
 
     switch (menu)
     {
         case 0:
+            #region
             Console.WriteLine(" thoát khỏi chương trình ");
+            #endregion
             break;
         case 1:
-            Console.WriteLine("xuất dữ liệu của bảng:");
-            ReadData();
+            #region"xuất dữ liệu tác giả"
+            Console.WriteLine("xuất dữ liệu tác giả:");
+            //  tạo đối tượng khởi tạo dữ liệu mẫu  
+            var seeder = new DataSeeder(context);
+
+            // nhập dữ liệu mẫu
+            seeder.Initialize();
+
+            // đọc danh sách từ csdl 
+            var authors = context.Authors.ToList();
+
+            //xuất danh sách tác giả ra màn hình 
+            Console.WriteLine("{0,-4}{1,-20}{2,-30}{3,-20}{4,-30}{5,-20}",
+                              "ID", "FullName", "Email", "joined date", "ImageUrl", "Notes");
+
+            foreach (var author in authors)
+            {
+                Console.WriteLine("{0, -4}{1, -20}{2,-30}{3,-20:MM/dd/yyyy}{4,-30}{5,-20}",
+                 author.Id, author.FullName, author.Email, author.JoinedDate, author.ImageUrl, author.Notes);
+                Strikethrough(120);
+            }
+            #endregion
             break;
         case 2:
+            #region"Xuất dữ liệu của tác giả và tiêu đề"
             Console.WriteLine("Xuất dữ liệu của tác giả và tiêu đề:");
-            AuthorAndTiltle();
+            var posts = context.posts
+            .Where(p => p.Publisded)
+            .OrderBy(p => p.Title)
+            .Select(p => new
+            {
+                Id = p.Id,
+                Tiltle = p.Title,
+                Viewcount = p.Viewcount,
+                PostedDate = p.PostedDate,
+                Author = p.Author.FullName,
+                Category = p.Category.Name
+            })
+            .ToList();
+
+
+            foreach (var postByAuthor in posts)
+            {
+                Console.WriteLine("ID:          {0}", postByAuthor.Id);
+                Console.WriteLine("Title:       {0}", postByAuthor.Tiltle);
+                Console.WriteLine("View:        {0}", postByAuthor.Viewcount);
+                Console.WriteLine("Date:        {0:MM/dd/yyyy}", postByAuthor.PostedDate);
+                Console.WriteLine("Author:      {0}", postByAuthor.Author);
+                Console.WriteLine("Category:    {0}", postByAuthor.Category);
+                Strikethrough(120);
+            }
+            #endregion
             break;
         case 3:
+            #region"xuất dữ liệu bài viết có nhiều ng xem nhất"
             Console.WriteLine(" xuất dữ liệu bài viết có nhiều ng xem nhất ");
 
-            var posts = await blogRepo.GetPopularArticlesAsync(2);
+            var postsView = await blogRepo.GetPopularArticlesAsync(2);
 
 
-            foreach (var postP in posts)
+            foreach (var postP in postsView)
             {
                 Console.WriteLine("ID      :{0}", postP.Id);
                 Console.WriteLine("Tiltel  :{0}", postP.Title);
@@ -80,8 +146,10 @@ static async Task xuatMenu(int menu)
                 Console.WriteLine("Category:{0}", postP.Category.Name);
                 Strikethrough(120);
             }
+            #endregion
             break;
         case 4:
+            #region"xuất dữ liệu 9/2021 có slug là ASP.NET"
             Console.WriteLine("xuất dữ liệu 9/2021 có slug là ASP.NET");
             var post = await blogRepo.GetPostAsync(2021, 9, "ASP.NET");
             Console.WriteLine("ID      :{0}", post.Id);
@@ -91,18 +159,16 @@ static async Task xuatMenu(int menu)
             Console.WriteLine("Author  :{0}", post.Author.FullName);
             Console.WriteLine("Category:{0}", post.Category.Name);
             Strikethrough(120);
+            #endregion
             break;
         case 5:
+            #region"tang view cho mot bai viet."
             Console.WriteLine(" tang view cho mot bai viet.");
-            // var postV = await blogRepo.IncreaseViewCountAsync();
             Console.WriteLine("ID      :{0}", blogRepo.IncreaseViewCountAsync(1));
-            //Console.WriteLine("Tiltel  :{0}", postV.Title);
-            //Console.WriteLine("View    :{0}", postV.Viewcount);
-            //Console.WriteLine("Date    :{0:MM/dd/yyyy}", postV.PostedDate);
-            //Console.WriteLine("Author  :{0}", postV.Author.FullName);
-            //Console.WriteLine("Category:{0}", postV.Category.Name);
+            #endregion
             break;
         case 6:
+            #region"lấy danh sách chuyên mục va dem so luong"
             Console.WriteLine("lấy danh sách chuyên mục va dem so luong");
             var categories = await blogRepo.GetCategoriesAsync();
             Console.WriteLine("{0,-5}{1,-50}{2,10}", "ID", "Name", "Count");
@@ -111,8 +177,10 @@ static async Task xuatMenu(int menu)
                 Console.WriteLine("{0,-5}{1,-50}{2,10}", category.Id, category.Name, category.PostCount);
 
             }
+            #endregion
             break;
         case 7:
+            #region"lay tu khoa"
             Console.WriteLine("lay tu khoa");
             var pagingParams = new PagingParams
             {
@@ -131,9 +199,10 @@ static async Task xuatMenu(int menu)
                 Console.WriteLine("{0,-5}{1,-50}{2,10}",
                     item.Id, item.Name, item.PostCount);
             }
+            #endregion
             break;
-
         case 8:
+            #region"xuất dữ liệu Tag slug là GOOGLE"
             Console.WriteLine("xuất dữ liệu Tag slug là GOOGLE");
             var tag = await blogRepo.GetTagAsync("GOOGLE");
             Console.WriteLine("ID      :{0}", tag.Id);
@@ -141,10 +210,11 @@ static async Task xuatMenu(int menu)
             Console.WriteLine("Slug    :{0}", tag.UrlSlug);
             Console.WriteLine("Description:{0}", tag.Description);
             Strikethrough(120);
+            #endregion
             break;
-
         case 9:
-            Console.WriteLine("asdasdsadasd");
+            #region"xuất tất cả các tag"
+            Console.WriteLine("xuất tất cả các tag");
             var tagItem = await blogRepo.GetAllByTagNumberAsync();
             foreach (var all in tagItem)
             {
@@ -155,92 +225,63 @@ static async Task xuatMenu(int menu)
                 Console.WriteLine("Post Count:{0}", all.PostCount);
                 Strikethrough(120);
             }
+            #endregion
             break;
         case 10:
+            #region"Xóa tag có ID = 1"
             Console.WriteLine("Xóa tag có ID = 1");
             var DelTag = await blogRepo.TagDeleteByID(1);
+            #endregion
+            break;
+        case 11:
+            #region"xuất chuyên mục có định danh slug là .dot net core"
+            Console.WriteLine("xuất chuyên mục có định danh slug là .dot net core.");
+            var categoryBySlug = await blogRepo.GetCategorybySlugAsync(".dot net core");
+            Console.WriteLine("ID      :{0}", categoryBySlug.Id);
+            Console.WriteLine("Name  :{0}", categoryBySlug.Name);
+            Console.WriteLine("Slug    :{0}", categoryBySlug.UrlSlug);
+            Console.WriteLine("Description:{0}", categoryBySlug.Description);
+            Strikethrough(120);
+            #endregion
+            break;
+        case 12:
+            #region"tìm chuyên mục có ID là 2."
+            Console.WriteLine("tìm chuyên mục có ID là 2.");
+            var categoryById = await blogRepo.GetCategoryByID(2);
+            Console.WriteLine("ID      :{0}", categoryById.Id);
+            Console.WriteLine("Name  :{0}", categoryById.Name);
+            Console.WriteLine("Slug    :{0}", categoryById.UrlSlug);
+            Console.WriteLine("Description:{0}", categoryById.Description);
+            #endregion
+            break;
+        case 13:
+            Console.WriteLine("thêm hoặc sửa một chuyên đề nếu có");
+            Category addCategory = new()
+            {
+                Name = "JAVA",
+                Description = "java",
+                UrlSlug = ".net bean",
+                ShowOnMenu = true
+            };
+            await blogRepo.AddOrUpdateCategory(addCategory);
+            Console.Out.WriteLine("theem thanh cong");
+            Console.WriteLine("ID      :{0}", addCategory.Id);
+            Console.WriteLine("Name  :{0}", addCategory.Name);
+            Console.WriteLine("Slug    :{0}", addCategory.UrlSlug);
+            Console.WriteLine("Description:{0}", addCategory.Description);
+
 
             break;
-
         default:
-
             break;
 
     }
 }
+#endregion
 
 
 
 
-// hàm dấu gạch ngang 
-static async void Strikethrough(int a)
-{
-    Console.WriteLine("".PadRight(a, '-'));
-
-}
-
-// hàm đọc dl tác giả 
-static void ReadData()
-{
-    // tạo context để quản lí phiên làm việc với  CSDL và trạng thái 
-    var context = new BlogDbContext();
-
-    //  tạo đối tượng khởi tạo dữ liệu mẫu  
-    var seeder = new DataSeeder(context);
-
-    // nhập dữ liệu mẫu
-    seeder.Initialize();
-
-    // đọc danh sách từ csdl 
-    var authors = context.Authors.ToList();
-
-    //xuất danh sách tác giả ra màn hình 
-    Console.WriteLine("{0,-4}{1,-20}{2,-30}{3,-20}{4,-30}{5,-20}",
-                      "ID", "FullName", "Email", "joined date", "ImageUrl", "Notes");
-
-    foreach (var author in authors)
-    {
-        Console.WriteLine("{0, -4}{1, -20}{2,-30}{3,-20:MM/dd/yyyy}{4,-30}{5,-20}",
-         author.Id, author.FullName, author.Email, author.JoinedDate, author.ImageUrl, author.Notes);
-        Strikethrough(120);
-    }
-
-}
 
 
-static void AuthorAndTiltle()
-{
-    // tạo context để quản lí phiên làm việc với  CSDL và trạng thái 
-    var context = new BlogDbContext();
-
-    var posts = context.posts
-    .Where(p => p.Publisded)
-    .OrderBy(p => p.Title)
-    .Select(p => new
-    {
-        Id = p.Id,
-        Tiltle = p.Title,
-        Viewcount = p.Viewcount,
-        PostedDate = p.PostedDate,
-        Author = p.Author.FullName,
-        Category = p.Category.Name
-    })
-    .ToList();
-
-
-    foreach (var post in posts)
-    {
-        Console.WriteLine("ID:          {0}", post.Id);
-        Console.WriteLine("Title:       {0}", post.Tiltle);
-        Console.WriteLine("View:        {0}", post.Viewcount);
-        Console.WriteLine("Date:        {0:MM/dd/yyyy}", post.PostedDate);
-        Console.WriteLine("Author:      {0}", post.Author);
-        Console.WriteLine("Category:    {0}", post.Category);
-        Strikethrough(120);
-    }
-}
-
-//Task NewMethod(IBlogRepository blogRepo)
-//{
-//    return blogRepo.IncreaseViewCountAsync(1);
 

@@ -82,6 +82,7 @@ namespace TatBlog.Data.Seeders
             _dbContext.SaveChanges () ;
             return tags;
         }
+
         private IList<Post> AddPosts(
             IList<Author> authors ,
             IList<Category>categories,
