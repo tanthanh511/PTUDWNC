@@ -96,5 +96,19 @@ public interface IBlogRepository
         Category category, 
         CancellationToken cancellationToken = default);
     #endregion
+
+    #region"xóa một chuyen muc theo mã cho trước"
+    Task<bool> DeleteCategoryByID(
+    int id,
+    CancellationToken cancellationToken = default);
+    #endregion
+
+    #region Lấy và phân trang danh sách chuyên mục, kết quả trả về kiểu IPagedList<CategoryItem> >_<
+    Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(
+        IPagingParams pagingParams,
+        CancellationToken cancellationToken = default);
+        
+    #endregion
+
 }
 

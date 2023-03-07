@@ -242,8 +242,41 @@ namespace TatBlog.Services.Blogs
             }
             
         }
-
-      
         #endregion
+
+        #region"xoa chuyên muc theo ID"
+        public async Task<bool> DeleteCategoryByID(int id, CancellationToken cancellationToken = default)
+        {
+            
+          int a =  await _context.Database
+               .ExecuteSqlRawAsync("DELETE FROM Posts WHERE CategoryId = " + id, cancellationToken);
+
+          int b=   await _context.Database
+                .ExecuteSqlRawAsync("DELETE FROM Category WHERE Id = " + id, cancellationToken);
+
+            if (a > 0 && b>0)
+                return true;
+            return false;
+
+        }
+        #endregion
+
+        #region lấy và phân trang của category
+        public async Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Category>()
+                .Select(c => new CategoryItem {
+                    Id = c.Id,
+                    Name = c.Name,
+                    UrlSlug = c.UrlSlug,
+                    Description = c.Description,
+                    ShowOnMenu = c.ShowOnMenu,
+                    PostCount = c.Posts.Count(p=> p.Publisded),
+                })
+                .ToPagedListAsync(pagingParams, cancellationToken);
+            //throw new NotImplementedException();
+        }
+        #endregion
+
     }
 }

@@ -34,7 +34,9 @@ Console.WriteLine("9.  xuất ra all tag và số bài viết.");
 Console.WriteLine("10. xóa tag có ID=1.");
 Console.WriteLine("11. xuất chuyên mục slug là ....");
 Console.WriteLine("12. tìm chuyên mục có ID:2 ");
-Console.WriteLine("13. thêm một chuyên mục");
+Console.WriteLine("13. thêm hoặc cập nhập một chuyên mục");
+Console.WriteLine("14. xóa một chuyên mục");
+Console.WriteLine("15. lấy và phân trang category");
 Console.WriteLine("0.  thoat ");
 Console.Write("bạn nhap tai đây: ");
 
@@ -180,7 +182,7 @@ static async Task xuatMenu(int menu)
             #endregion
             break;
         case 7:
-            #region"lay tu khoa"
+            #region"lay và phân trang tag"
             Console.WriteLine("lay tu khoa");
             var pagingParams = new PagingParams
             {
@@ -255,6 +257,7 @@ static async Task xuatMenu(int menu)
             #endregion
             break;
         case 13:
+            #region"thêm hoặc sửa một chuyên đề"
             Console.WriteLine("thêm hoặc sửa một chuyên đề nếu có");
             Category addCategory = new()
             {
@@ -269,8 +272,35 @@ static async Task xuatMenu(int menu)
             Console.WriteLine("Name  :{0}", addCategory.Name);
             Console.WriteLine("Slug    :{0}", addCategory.UrlSlug);
             Console.WriteLine("Description:{0}", addCategory.Description);
+            #endregion
+            break;
+        case 14:
+            #region xóa một chuyên mục theo ID= 1 
+            Console.WriteLine("xóa một chuyên mục theo ID");
+            var DelCategory = await blogRepo.DeleteCategoryByID(1);
+            #endregion
+            break;
+        case 15:
+            #region lấy và phân trang category
+            await Console.Out.WriteLineAsync("lấy và phân trang category");
+            var pagingParamsCategory = new PagingParams
+            {
+                PageNumber = 1, // lấy kết quả ở trang số 1 
+                PageSize = 2, //lấy 2 mẫu tin 
+                SortColumn = "Name", //sắp xếp theo tên 
+                SortOrder = "DESC" // theo chiều giảm dần 
+            };
+            // lấy danh sách chuyên mục
+            var categoryList = await blogRepo.GetPagedCategoriesAsync(pagingParamsCategory);
 
-
+            Console.WriteLine("{0,-5}{1,-50}{2,10}",
+                "ID", "Name", "Count");
+            foreach (var item in categoryList)
+            {
+                Console.WriteLine("{0,-5}{1,-50}{2,10}",
+                    item.Id, item.Name, item.PostCount);
+            }
+            #endregion
             break;
         default:
             break;
