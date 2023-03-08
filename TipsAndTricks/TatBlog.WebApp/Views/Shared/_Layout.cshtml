@@ -11,14 +11,13 @@
     @await RenderSectionAsync("styles", required: false)
 </head>
 <body>
-    @RenderBody()
     <!-- thanh tiêu đề, logo, menu-->
-    <partial name ="_Header" />
-
+    <partial name ="_Header" />    
     <div class="container-fluid">
         <div class="row">
             <div class="col-9">
                 <!-- phần nội dung chính-->
+                @RenderBody()
             </div>
             <div class="col-3 border-start">
                 <!--danh sách chuyên mục, tag cloud,....-->

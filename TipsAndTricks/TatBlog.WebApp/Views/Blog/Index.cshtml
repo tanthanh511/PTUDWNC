@@ -1,11 +1,22 @@
-﻿@{
+﻿@model IPagedList<Post>
+
+@{
     ViewData["PageTitle"] = " Trang chủ";
 }
 
-<h1>
+@*<h1>
     Đây là trang chủ
-</h1>
+</h1>*@
 
-<p>
+
+
+<div class="p-4">
+    @foreach(var postItem in Model)
+    {
+        <partial name="_PostList" model="postItem"/>
+    }
+</div>
+
+@*<p>
     Bây giờ là: @ViewBag.currentTime
-</p>
+</p>*@

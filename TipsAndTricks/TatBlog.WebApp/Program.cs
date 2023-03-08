@@ -1,13 +1,26 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.EntityFrameworkCore;
+using TatBlog.Data.Contexts;
+using TatBlog.Data.Seeders;
+using TatBlog.Services.Blogs;
+
+
+var builder = WebApplication.CreateBuilder(args);
 {
     // thêm các dịch vụ được yêu cầ bởi MVC Framework
     builder.Services.AddControllersWithViews();
+
+    //đăng kí các dịch vụ với DI container
+    builder.Services.AddDbContext<BlogDbContext>(options=> options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
+    
+    builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+    builder.Services.AddScoped<IDataSeeder, DataSeeder>();
 }
 
 var app = builder.Build();
 {
     // cấu hình http reques pipeline 
-    // theem middleware để hiển thị thông báo lỗi
+    // thêm middleware để hiển thị thông báo lỗi
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
@@ -32,5 +45,11 @@ var app = builder.Build();
         pattern:"{controller=Blog}/{action=Index}/{id?}");
 }
 
+// thêm dữ liệu vào mẫu cơ sở dữ liệu
+using (var scope = app.Services.CreateScope())
+{
+    var seeder= scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+    seeder.Initialize();
+}
 
 app.Run();
