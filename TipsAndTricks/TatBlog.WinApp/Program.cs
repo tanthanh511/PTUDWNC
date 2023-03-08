@@ -1,4 +1,6 @@
-﻿////See https://aka.ms/new-console-template for more information
+﻿Console.WriteLine("Hello");
+
+////See https://aka.ms/new-console-template for more information
 //using System.Text;
 //using TatBlog.Data.Contexts;
 //using TatBlog.Data.Seeders;

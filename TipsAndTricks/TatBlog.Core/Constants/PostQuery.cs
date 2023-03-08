@@ -19,6 +19,7 @@ namespace TatBlog.Core.Constants
         public bool PublishedOnly { get; set; }
         public int PostedYear { get; set; }
         public int PostedMonth { get; set; }
+        public string Keyword { get; set; }
         public DateTime PostedDate { get; set; }
     }
 }

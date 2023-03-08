@@ -40,9 +40,27 @@ var app = builder.Build();
     // thêm middlineware lựa chon endpoint phù hợp nhất để xử lí một http request 
     app.UseRouting();
     // định nghĩa route template , router constraint cho các endpoints kết hợp với các action trong các controller
+
+
+    app.MapControllerRoute(
+        name: "posts-by-category",
+        pattern: "blog/category/{slug}",
+        defaults: new { controller = "Blog", action = "Category" });
+
+    app.MapControllerRoute(
+        name: "posts-by-tag",
+        pattern: "blog/tag/{slug}",
+        defaults: new { controller = "Blog", action = "Tag" });
+
+    app.MapControllerRoute(
+        name: "single-post",
+        pattern: "blog/post/{year:int}/{month:int}/{day:int}/{slug}",
+        defaults: new { controller = "Blog", action = "Post" });
+
     app.MapControllerRoute(
         name: "default",
-        pattern:"{controller=Blog}/{action=Index}/{id?}");
+        pattern: "{controller=Blog}/{action=Index}/{id?}");
+
 }
 
 // thêm dữ liệu vào mẫu cơ sở dữ liệu

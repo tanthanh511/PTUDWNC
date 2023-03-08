@@ -13,35 +13,31 @@ namespace TatBlog.WebApp.Controllers
         {
             _blogRepository = blogRepository;
         }
-        #region Action này xử lí HTTP request đến trang chủ của ứng dụng web hoặc tìm kiếm bài viết theo từ khóa 
+
         public async Task<IActionResult> Index(
-            [FromQuery(Name ="p")] int pageNumber =1,
-            [FromQuery(Name ="ps")] int pageSize= 10)
+             [FromQuery(Name = "k")] string keyword = null,
+             [FromQuery(Name = "p")] int pageNumber = 1,
+             [FromQuery(Name = "ps")] int pageSize = 10)
         {
-            // tạo đối tuoiwngj chứa các điều kiện truy vấn
+            // tạo đối tượng chứa các điều kiện truy vấn
             var postQuery = new PostQuery()
             {
-                // chỉ lấy những bài viết có trang thái Publised
-                PublishedOnly = true
+                // chỉ lấy những bài viết có trạng thái pub
+                PublishedOnly = true,
+
+                // tìm bài viết theo từ khóa
+                Keyword = keyword
             };
 
-            // truy vấn các bài viết theo điều kiện đã tạo 
+            // truy vấn các bài viết theo điều kiện đã tạo
             var postsList = await _blogRepository
-                .GetPagedPostAsync(postQuery, pageNumber,pageSize);
-            // lưu lại các bài viết theo điều kiện đã tạo 
+                .GetPagedPostAsync(postQuery, pageNumber, pageSize);
+            // lưu lại điều kiện truy vấn để hiển thị trong view
             ViewBag.PostQuery = postQuery;
-            // truyền lại danh sách bài viết vào view để render ra HTML
+
+            // truyền danh sách bài viết vào view để render ra html
             return View(postsList);
         }
-
-
-        //public IActionResult Index()
-        //{
-        //    ViewBag.CurrentTime = DateTime.Now.ToString("HH:mm.ss");
-        //    return View();
-        //}
-        #endregion
-
 
         public IActionResult Contact()=> View();
 

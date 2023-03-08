@@ -1,15 +1,16 @@
-﻿<!--form tìm kiếm -->
-<h1>Tìm kiếm bài viết</h1>
+﻿<div class="my-4">
+    <!--form tìm kiếm -->
+    <partial name="_SearchForm" />
 
-<!--Các chuyên mục/chủ đề-->
-<h1>Các chủ đề</h1>
+    <!--Các chuyên mục/chủ đề-->
+    @await Component.InvokeAsync("CategoriesWidget")
 
-<!--top các bài viết nỗi bật-->
-<h1>Bài viết nỗi bật</h1>
+    <!--top các bài viết nỗi bật-->
+    <h1>Bài viết nỗi bật</h1>
 
-<!--Đăng kí nhận tin mới-->
-<h1>Đăng kí nhận tin mới</h1>
+    <!--Đăng kí nhận tin mới-->
+    <h1>Đăng kí nhận tin mới</h1>
 
-<!--tag cloud-->
-<h1>Tag cloud</h1>
-
+    <!--tag cloud-->
+    <h1>Tag cloud</h1>
+</div>
