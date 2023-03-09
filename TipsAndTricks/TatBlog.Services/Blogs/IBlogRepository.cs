@@ -31,15 +31,13 @@ public interface IBlogRepository
         CancellationToken cancellationToken = default);
     #endregion
 
-    // kiểm tra xem tên của bài viết đã có hay chưa 
-    #region
+    #region  kiểm tra xem tên của bài viết đã có hay chưa 
     Task<bool> IsPostSlugExistedAsync(
         int postID, string slug,
         CancellationToken cancellationToken = default);
     #endregion
 
-    // tăng số lượng xem của một bài viết 
-    #region
+    #region tăng số lượng xem của một bài viết 
     Task IncreaseViewCountAsync(
         int postID,
         CancellationToken cancellationToken = default);

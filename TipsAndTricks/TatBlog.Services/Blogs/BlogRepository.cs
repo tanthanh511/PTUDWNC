@@ -15,8 +15,7 @@ namespace TatBlog.Services.Blogs
 {
     public class BlogRepository : IBlogRepository
     {
-        // cài đặt phương thức khỏi tạo cho blogRepossitiory
-        #region
+        #region cài đặt phương thức khỏi tạo cho blogRepossitiory
         private readonly BlogDbContext _context;
         public BlogRepository( BlogDbContext context)
         {
@@ -26,8 +25,7 @@ namespace TatBlog.Services.Blogs
 
         // **** điểm cần chú ý là throw new notImplementedException: đưa ra ngoài lệ cho một phương thức 
 
-        // tìm bài viết có định danh là (slug) và được đăng vào tháng năm nào đó ....
-        #region
+        #region tìm bài viết có định danh là (slug) và được đăng vào tháng năm nào đó ....
         public async Task<Post> GetPostAsync(int year, int month, string slug, CancellationToken cancellationToken = default)
         {
             IQueryable<Post> postsQuery = _context.Set<Post>()
@@ -53,8 +51,7 @@ namespace TatBlog.Services.Blogs
         }
         #endregion
 
-        // tìm một bài post top N bài viết được moiij người xem nhất 
-        #region
+        #region tìm một bài post top N bài viết được moiij người xem nhất 
         public async Task<IList<Post>> GetPopularArticlesAsync(int numPosts, CancellationToken cancellationToken = default)
         {
             return await _context.Set<Post>()
@@ -67,8 +64,7 @@ namespace TatBlog.Services.Blogs
         }
         #endregion
 
-        // tăng(view)  cho một bài viết 
-        #region
+        #region tăng(view)  cho một bài viết 
         public async Task IncreaseViewCountAsync(int postID, CancellationToken cancellationToken = default)
         {
             await _context.Set<Post>()
@@ -79,8 +75,7 @@ namespace TatBlog.Services.Blogs
         }
         #endregion
 
-        // kiểm tra xem tên định danh của bài viết đã có hay chưa có 
-        #region
+        #region kiểm tra xem tên định danh của bài viết đã có hay chưa có 
         public async Task<bool> IsPostSlugExistedAsync(int postID, string slug, CancellationToken cancellationToken = default)
         {
 
@@ -90,8 +85,7 @@ namespace TatBlog.Services.Blogs
         }
         #endregion
 
-        // lấy danh sách chuyên mục và sô lượng bài viết và nảm thuộc từng chuyên mục chủ đề
-        #region
+        #region lấy danh sách chuyên mục và sô lượng bài viết và nảm thuộc từng chuyên mục chủ đề
         public async Task<IList<CategoryItem>> GetCategoriesAsync(bool showOnMenu = false, CancellationToken cancellationToken = default)
         {
             IQueryable<Category> categories = _context.Set<Category>();
@@ -115,8 +109,7 @@ namespace TatBlog.Services.Blogs
         }
         #endregion
 
-        //lấy danh sach tu khao the va phan trang 
-        #region
+        #region lấy danh sach tu khao the va phan trang 
         public async Task<IPagedList<TagItem>> GetPagedTagsAsync(
             IPagingParams pagingParams,
             CancellationToken cancellationToken = default)
@@ -135,8 +128,7 @@ namespace TatBlog.Services.Blogs
         }
         #endregion
 
-        // tìm một thẻ tag có định danh là slug
-        #region
+        #region tìm một thẻ tag có định danh là slug
         public async Task<Tag> GetTagAsync(string slug, CancellationToken cancellationToken = default)
         {
 
