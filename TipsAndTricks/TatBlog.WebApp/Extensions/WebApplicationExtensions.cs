@@ -8,6 +8,7 @@ namespace TatBlog.WebApp.Extensions
     public static class WebApplicationExtensions
     {
         // Thêm các dịch vụ được yêu cầu bởi MVC Framework
+        #region
         public static WebApplicationBuilder ConfigureMvc(
             this WebApplicationBuilder buider)
         {
@@ -16,8 +17,10 @@ namespace TatBlog.WebApp.Extensions
 
             return buider;
         }
+        #endregion
 
         // Đăng kí các dịch vụ với DI Container
+        #region
         public static WebApplicationBuilder ConfigureServices(
             this WebApplicationBuilder buider)
         {
@@ -31,8 +34,9 @@ namespace TatBlog.WebApp.Extensions
 
             return buider;
         }
-
+        #endregion
         // Cấu hình HTTP Request pipeline
+        #region
         public static WebApplication UseRequestPipeline(
             this WebApplication app)
         {
@@ -66,8 +70,9 @@ namespace TatBlog.WebApp.Extensions
 
             return app;
         }
-
+        #endregion
         // Thêm dữ liệu mẫu vào CSDL
+        #region
         public static IApplicationBuilder UseDataSeeder(
                 this IApplicationBuilder app)
         {
@@ -87,5 +92,6 @@ namespace TatBlog.WebApp.Extensions
             }
             return app;
         }
+        #endregion
     }
 }
