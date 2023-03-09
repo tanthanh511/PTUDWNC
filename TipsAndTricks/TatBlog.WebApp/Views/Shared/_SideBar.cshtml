@@ -1,0 +1,16 @@
+﻿<div class="my-4">
+    <!--form tìm kiếm -->
+    <partial name="_SearchForm" />
+
+    <!--Các chuyên mục/chủ đề-->
+    @await Component.InvokeAsync("CategoriesWidget")
+
+    <!--top các bài viết nỗi bật-->
+    <h1>Bài viết nỗi bật</h1>
+
+    <!--Đăng kí nhận tin mới-->
+    <h1>Đăng kí nhận tin mới</h1>
+
+    <!--tag cloud-->
+    <h1>Tag cloud</h1>
+</div>

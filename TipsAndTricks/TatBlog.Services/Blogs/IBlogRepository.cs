@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TatBlog.Core.Constants;
 using TatBlog.Core.Entities;
 using TatBlog.Core.DTO;
 using TatBlog.Core.Contracts;
@@ -10,7 +6,7 @@ using TatBlog.Core.Contracts;
 namespace TatBlog.Services.Blogs;
 
 public interface IBlogRepository
-    //< cái này chỉ mới tạo hàm để khởi tạo và chạo đa luồng >
+//< cái này chỉ mới tạo hàm để khởi tạo và chạo đa luồng >
 {   // CancellationToken cancellationToken = default ( mã thông báo hủy) >_<
 
     // tìm bài viết có định danh là slug 
@@ -44,11 +40,11 @@ public interface IBlogRepository
         int postID,
         CancellationToken cancellationToken = default);
     #endregion
- 
+
     #region"lấy danh sách chủ đề "
     Task<IList<CategoryItem>> GetCategoriesAsync(
         bool showOnMenu = false,
-        CancellationToken cancellationToken= default);
+        CancellationToken cancellationToken = default);
     #endregion
 
     #region"lấy danh sách từ khóa/ thẻ và phân trang theo các tham số pagingParams"
@@ -58,7 +54,7 @@ public interface IBlogRepository
     #endregion
 
     #region"lấy tag có định danh bằng slug"
-    Task<Tag> GetTagAsync(string slug , CancellationToken cancellationToken = default);
+    Task<Tag> GetTagAsync(string slug, CancellationToken cancellationToken = default);
     #endregion
 
     #region"lấy danh sách tất cả tag kèm theo sô bài viết "
@@ -85,15 +81,15 @@ public interface IBlogRepository
 
     #region"kiểm tra chuyên mục đã có hay chưa"
     Task<bool> IsCategorySlugExistedAsync(
-        int id, 
-        string slug, 
+        int id,
+        string slug,
         CancellationToken cancellationToken = default);
 
     #endregion
 
     #region"ham them hoac sua category"
     Task AddOrUpdateCategory(
-        Category category, 
+        Category category,
         CancellationToken cancellationToken = default);
     #endregion
 
@@ -107,8 +103,22 @@ public interface IBlogRepository
     Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(
         IPagingParams pagingParams,
         CancellationToken cancellationToken = default);
-        
+
     #endregion
 
+    #region tìm kiếm và phân trang của bài viết(post)
+    IQueryable<Post> FilterPost(PostQuery condition);
+    Task<IPagedList<Post>> GetPagedPostAsync(
+        PostQuery condition,
+        int pageNumber = 1,
+        int pageSize = 10,
+        CancellationToken cancellationToken = default);
+    Task<IPagedList<Post>> GetPagedPostsAsync(PostQuery condition,
+         IPagingParams pagingParams,
+         CancellationToken cancellationToken = default);
+
+
+
+    #endregion
 }
 
