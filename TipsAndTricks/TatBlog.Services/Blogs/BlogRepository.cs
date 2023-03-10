@@ -239,7 +239,7 @@ namespace TatBlog.Services.Blogs
                 cancellationToken);
             else
             {
-                _context.categories.Add(category);
+                _context.Categories.Add(category);
                 _context.SaveChanges();
             }
             
@@ -280,7 +280,7 @@ namespace TatBlog.Services.Blogs
         }
         #endregion
 
-        #region tìm kiếm và phân trang của bài viết(post)
+            #region tìm kiếm và phân trang của bài viết(post)
         public async Task<IPagedList<Post>> GetPagedPostsAsync(PostQuery condition, IPagingParams pagingParams, CancellationToken cancellationToken = default)
         {
             return await FilterPost(condition)
@@ -288,12 +288,12 @@ namespace TatBlog.Services.Blogs
         }
         public IQueryable<Post> FilterPost(PostQuery condition)
         {
-            return _context.Set<Post>()
+            var query = _context.Set<Post>()
                 .Include(c => c.Category)
                 .Include(t => t.Tags)
-                .Include(a => a.Author)
-                .WhereIf(condition.AuthorId > 0, p => p.AuthorId == condition.AuthorId)
-                .WhereIf(!string.IsNullOrWhiteSpace(condition.AuthorSlug), p => p.UrlSlug == condition.AuthorSlug)
+                .Include(a => a.Author);
+            return query.WhereIf(condition.AuthorId > 0, p => p.AuthorId == condition.AuthorId)
+                .WhereIf(!string.IsNullOrWhiteSpace(condition.AuthorSlug), p => p.Author.UrlSlug == condition.AuthorSlug)
                 .WhereIf(condition.PostId > 0, p => p.Id == condition.PostId)
                 .WhereIf(condition.CategoryId > 0, p => p.CategoryId == condition.CategoryId)
                 .WhereIf(!string.IsNullOrWhiteSpace(condition.CategorySlug), p => p.Category.UrlSlug == condition.CategorySlug)
@@ -304,7 +304,6 @@ namespace TatBlog.Services.Blogs
                 .WhereIf(condition.PublishedOnly != null, p => p.Publisded == condition.PublishedOnly);
         }
      
-
         public async Task<IPagedList<Post>> GetPagedPostAsync(PostQuery condition, int pageNumber = 1, int pageSize = 10, CancellationToken cancellationToken = default)
         {
             return await FilterPost(condition)
@@ -314,6 +313,20 @@ namespace TatBlog.Services.Blogs
                     cancellationToken);
         }
 
+
+        #endregion
+
+        #region tìm một tác giả theo slug
+        public async Task<Author> GetAuthorbySlugAsync(string slug, CancellationToken cancellationToken = default)
+        {
+            IQueryable<Author> authorQuery = _context.Set<Author>();
+            if (!string.IsNullOrWhiteSpace(slug))
+            {
+                authorQuery = authorQuery.Where(x => x.UrlSlug == slug);
+            }
+            return await authorQuery.FirstOrDefaultAsync(cancellationToken);
+
+        }
         #endregion
     }
 }

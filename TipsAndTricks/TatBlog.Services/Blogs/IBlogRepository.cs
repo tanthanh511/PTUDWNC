@@ -120,5 +120,11 @@ public interface IBlogRepository
 
 
     #endregion
+
+    #region tìm một tác giả theo định danh slug
+    Task <Author> GetAuthorbySlugAsync(
+       string slug,
+       CancellationToken cancellationToken = default);
+    #endregion
 }
 

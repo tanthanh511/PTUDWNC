@@ -17,6 +17,8 @@ namespace TatBlog.WebApp.Components;
             // lấy danh sách chủ đề
             var categories = await _blogRepository.GetCategoriesAsync();
             return View(categories);
+
+       
         }
     }
 

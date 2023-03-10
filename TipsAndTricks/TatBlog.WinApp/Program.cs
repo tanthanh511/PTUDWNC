@@ -1,14 +1,23 @@
-﻿Console.WriteLine("Hello");
+﻿
+
 
 ////See https://aka.ms/new-console-template for more information
-//using System.Text;
-//using TatBlog.Data.Contexts;
-//using TatBlog.Data.Seeders;
-//using TatBlog.Services.Blogs;
-//using TatBlog.WinApp;
-//using TatBlog.Core.Entities;
-//using Microsoft.EntityFrameworkCore;
+using System.Text;
+using TatBlog.Data.Contexts;
+using TatBlog.Data.Seeders;
+using TatBlog.Services.Blogs;
+using TatBlog.WinApp;
+using TatBlog.Core.Entities;
+using Microsoft.EntityFrameworkCore;
 
+Console.WriteLine("HELLO");
+
+var context = new BlogDbContext();
+
+IBlogRepository blogRepo = new BlogRepository(context);
+
+DataSeeder seeder = new DataSeeder(context);
+seeder.Initialize();
 //#region"hàm tiếng việt"
 //Console.OutputEncoding = Encoding.UTF8;
 //#endregion
