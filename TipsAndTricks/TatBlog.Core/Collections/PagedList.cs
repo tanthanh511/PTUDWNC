@@ -23,6 +23,7 @@ namespace TatBlog.Core.Collections
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
         public int TotalItemCount { get; }
+        #region pageNumber
         public int PageNumber
         {
             get => PageIndex + 1;
@@ -39,6 +40,7 @@ namespace TatBlog.Core.Collections
                 return total;
             }
         }
+        #endregion
 
         public bool HasPreviousPage => PageIndex > 0;
         public bool HasNextPage => (PageIndex < (PageCount-1 ));

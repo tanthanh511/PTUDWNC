@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TatBlog.Core.DTO;
+using TatBlog.Core.Entities;
 using TatBlog.Services.Blogs;
 
 namespace TatBlog.WebApp.Components;
@@ -17,6 +19,8 @@ namespace TatBlog.WebApp.Components;
             // lấy danh sách chủ đề
             var categories = await _blogRepository.GetCategoriesAsync();
             return View(categories);
+
+       
         }
     }
 

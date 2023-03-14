@@ -1,4 +1,6 @@
-﻿<div class="my-4">
+﻿<!--cái này dùng để thiết kế những cái như tìm kiếm, hiển thị các chủ đề, bài viết nổi bật ,.....-->
+
+<div class="my-4">
     <!--form tìm kiếm -->
     <partial name="_SearchForm" />
 
@@ -6,11 +8,12 @@
     @await Component.InvokeAsync("CategoriesWidget")
 
     <!--top các bài viết nỗi bật-->
-    <h1>Bài viết nỗi bật</h1>
-
+    @await Component.InvokeAsync("Archives")
+    
     <!--Đăng kí nhận tin mới-->
-    <h1>Đăng kí nhận tin mới</h1>
-
+    @await Component.InvokeAsync("FeaturedPosts")
+    
     <!--tag cloud-->
     <h1>Tag cloud</h1>
+   
 </div>

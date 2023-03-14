@@ -1,9 +1,50 @@
-﻿@{
+﻿@*@{
     ViewData["PageTitle"] = "Giới thiệu";
 }
 
 <h1>
     Đây là trang giới thiệu
-</h1>
+</h1>*@
 
+@{
+    ViewData["PageTitle"] = "Giới thiệu";
+}
 
+<main role="main">
+    <div class="container mt-2">
+        <h1 class="text-center">Giới thiệu Tip&Tricks</h1>
+        <div class="row">
+            <div class="col col-md-12">
+                <h5 class="text-center">Cung cấp kiến thức nền tảng về Lập trình, Thiết kế Web, Cơ sở dữ liệu</h5>
+                <h5 class="text-center">
+                    Giúp các bạn có niềm tin, hành trang kiến thức vững vàng trên con đường trở
+                    thành
+                    Nhà phát triển Phần mềm
+                </h5>
+                <div class="text-center">
+                    <a href="https://github.com/tanthanh511" class="btn btn-primary btn-lg">
+                        Bấm vào đây!!! <i class="fa fa-forward" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col col-md-6">
+                <img src="~/images/thanhgit.jpg" width="100%">
+            </div>
+            <div class="col col-md-6">
+                <img src="~/images/thanhfacebook.jpg" width="100%">
+            </div>
+        </div>
+     @*   <div class="row mt-2">
+            <div class="col col-md-6">
+                <img src="~/images/3.jpg" width="100%">
+            </div>
+            <div class="col col-md-6">
+                <img src="~/images/2.jpg" width="100%">
+            </div>
+
+        </div>*@
+    </div>
+
+</main>
