@@ -1,20 +1,14 @@
 ﻿@using TatBlog.Core.Constants;
-
-@model PagedList<Post>
+@model IPagedList<Post>
 
 @{
-    ViewData["PageTitle"] = "Post";
+    ViewData["PageTitle"] = "Archives";
     var postQuery = (ViewBag.PostQuery as PostQuery) ?? new PostQuery();
 }
 
 <div class="p-4">
-  
-    @if (!string.IsNullOrWhiteSpace(postQuery.CategorySlug))
-    {
-        <h3 class="text-primary mb-3">
-            Nhung bai viet chua tu khoa '@postQuery.CategorySlug'
-        </h3>
-    }
+
+
     @foreach (var postItem in Model)
     {
         <partial name="_PostList" model="postItem" />

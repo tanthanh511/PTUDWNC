@@ -8,10 +8,10 @@
     @await Component.InvokeAsync("CategoriesWidget")
 
     <!--top các bài viết nỗi bật-->
-    <h1>Bài viết nỗi bật</h1>
+    @await Component.InvokeAsync("Archives")
     
     <!--Đăng kí nhận tin mới-->
-    <h1>Đăng kí nhận tin mới</h1>
+    @await Component.InvokeAsync("FeaturedPosts")
     
     <!--tag cloud-->
     <h1>Tag cloud</h1>

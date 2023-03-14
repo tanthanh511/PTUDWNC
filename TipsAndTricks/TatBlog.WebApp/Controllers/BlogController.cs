@@ -43,7 +43,7 @@ namespace TatBlog.WebApp.Controllers
         }
         #endregion
 
-        #region tìm chuyên mục theo slug
+        #region tìm category theo slug
         public async Task<IActionResult> Category(
              [FromRoute(Name = "slug")] string slug = null,
              [FromQuery(Name = "p")] int pageNumber = 1,
@@ -72,7 +72,7 @@ namespace TatBlog.WebApp.Controllers
         }
         #endregion
 
-        #region tìm tác giả theo slug
+        #region tìm author theo slug
         public async Task<IActionResult> Author(
              [FromRoute(Name = "slug")] string slug = null,
              [FromQuery(Name = "p")] int pageNumber = 1,
@@ -101,7 +101,7 @@ namespace TatBlog.WebApp.Controllers
         }
         #endregion
 
-        #region tìm thẻ theo slug
+        #region tìm tag theo slug
         public async Task<IActionResult> Tag(
              [FromRoute(Name = "slug")] string slug = null,
              [FromQuery(Name = "p")] int pageNumber = 1,
@@ -140,12 +140,7 @@ namespace TatBlog.WebApp.Controllers
              int pageNumber = 1,
              int pageSize = 5)
         {
-
-            // đặt điều kiện PublishOnly=false thì sẽ xuất lỗi 
-            
-            {
-
-            }    
+ 
             // tạo đối tượng chứa các điều kiện truy vấn
             var postQuery = new PostQuery()
             {
@@ -155,6 +150,8 @@ namespace TatBlog.WebApp.Controllers
                 PostedYear = year,
                 PostedMonth = month,
                 PostedDay = day,
+                CategorySlug = slug
+                
                 
 
                 // tìm bài viết theo từ khóa
@@ -177,6 +174,101 @@ namespace TatBlog.WebApp.Controllers
             return View(postsList);
         }
         #endregion
+
+        #region postInfo
+        public async Task<IActionResult> PostInfo(
+
+             [FromRoute(Name = "year")] int year,
+             [FromRoute(Name = "month")] int month,
+             [FromRoute(Name = "day")] int day,
+             [FromRoute(Name = "slug")] string slug = null,
+             int pageNumber = 1,
+             int pageSize = 5)
+        {
+
+
+            // truy vấn các bài viết theo điều kiện đã tạo
+            var postsList = await _blogRepository
+                .GetPostAsync(year, month, slug);
+
+
+            // lưu lại điều kiện truy vấn để hiển thị trong view
+            //ViewBag.PostQuery = postQuery;
+
+            // truyền danh sách bài viết vào view để render ra html
+            return View(postsList);
+        }
+        #endregion
+
+        #region Archives năm tháng
+        public async Task<IActionResult> Archives(
+
+            [FromRoute(Name = "year")] int year,
+            [FromRoute(Name = "month")] int month,
+            int pageNumber = 1,
+            int pageSize = 5)
+        {
+
+            var postQuery = new PostQuery()
+            {
+
+                // chỉ lấy những bài viết có trạng thái pub
+                PublishedOnly = true,
+                PostedYear = year,
+                PostedMonth = month
+                // tìm bài viết theo từ khóa
+
+            };
+
+            // truy vấn các bài viết theo điều kiện đã tạo
+            var postsList = await _blogRepository
+                .GetPagedPostAsync(postQuery, pageNumber, pageSize);
+
+
+            // lưu lại điều kiện truy vấn để hiển thị trong view
+                ViewBag.PostQuery = postQuery;
+
+            // truyền danh sách bài viết vào view để render ra html
+            return View(postsList);
+        }
+        #endregion
+
+        //#region FeaturedPosts
+        //public async Task<IActionResult> FeaturedPosts(
+
+        //   [FromRoute(Name = "slug")] string slug,
+        //   [FromRoute(Name = "view")] int view,
+        //   int pageNumber = 1,
+        //   int pageSize = 5)
+        //{
+
+        //    var postQuery = new PostQuery()
+        //    {
+
+        //        // chỉ lấy những bài viết có trạng thái pub
+        //        PublishedOnly = true,
+        //        Viewcount = view,
+        //        CategorySlug = slug
+        //        // tìm bài viết theo từ khóa
+
+        //    };
+
+        //    // truy vấn các bài viết theo điều kiện đã tạo
+        //    var postsList = await _blogRepository
+        //        .GetPagedPostAsync(postQuery, pageNumber, pageSize);
+
+
+        //    // lưu lại điều kiện truy vấn để hiển thị trong view
+        //    ViewBag.PostQuery = postQuery;
+
+        //    // truyền danh sách bài viết vào view để render ra html
+        //    return View(postsList);
+        //}
+
+        //#endregion
+
+
+
 
         public IActionResult Contact()=> View();
 

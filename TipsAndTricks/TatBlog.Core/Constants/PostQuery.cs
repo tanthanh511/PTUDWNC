@@ -9,6 +9,7 @@ namespace TatBlog.Core.Constants
     public class PostQuery
     {
         public int Id { get; set; }
+        public string PostSlug { get; set; }
         public int AuthorId { get; set; }
         public int PostId { get; set; }
         public int TagId { get; set; }
@@ -21,7 +22,8 @@ namespace TatBlog.Core.Constants
         public int PostedMonth { get; set; }
         public int PostedDay { get; set; }
         public string Keyword { get; set; }
-        
+        public int Viewcount { get; set; }
         public DateTime PostedDate { get; set; }
+        public bool NotPublisded { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 @{
     var imageUrl = string.IsNullOrWhiteSpace(Model.ImageUrl)
-            ? "/images/1.jpg"
+            ? "/images/2.jpg"
             : $"/{Model.ImageUrl}";
 }
 
@@ -60,7 +60,7 @@
 
                     <div class="text-end">
                         <a asp-controller="Blog"
-                           asp-action="Post"
+                           asp-action="PostInfo"
                            asp-route-year="@Model.PostedDate.Year"
                            asp-route-month="@Model.PostedDate.Month"
                            asp-route-day="@Model.PostedDate.Day"

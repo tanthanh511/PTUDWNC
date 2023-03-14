@@ -116,15 +116,26 @@ public interface IBlogRepository
     Task<IPagedList<Post>> GetPagedPostsAsync(PostQuery condition,
          IPagingParams pagingParams,
          CancellationToken cancellationToken = default);
-
-
-
     #endregion
 
     #region tìm một tác giả theo định danh slug
     Task <Author> GetAuthorbySlugAsync(
        string slug,
        CancellationToken cancellationToken = default);
+    #endregion
+
+    #region lấy bài tất cả những gì có trong bài post
+    //Task<IPagedList<Post>> GetPostsAsync(
+    //    PostQuery  condition,
+    //    int pageNumber=1,
+    //    int pageSize = 10,
+    //    CancellationToken cancellationToken= default);  
+    #endregion
+
+
+    #region đếm bài viết n tháng 
+    Task<IList<PostItem>> CountPostsNMonthAsync(
+        int n, CancellationToken cancellationToken = default);
     #endregion
 }
 
