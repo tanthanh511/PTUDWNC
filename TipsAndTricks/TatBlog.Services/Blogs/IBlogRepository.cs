@@ -124,6 +124,10 @@ public interface IBlogRepository
        CancellationToken cancellationToken = default);
     #endregion
 
+    #region getAuthorAsync
+    Task<IList<AuthorItem>> GetAuthorsAsync(CancellationToken cancellationToken = default);
+    #endregion
+
     #region lấy bài tất cả những gì có trong bài post
     //Task<IPagedList<Post>> GetPostsAsync(
     //    PostQuery  condition,
@@ -136,6 +140,14 @@ public interface IBlogRepository
     #region đếm bài viết n tháng 
     Task<IList<PostItem>> CountPostsNMonthAsync(
         int n, CancellationToken cancellationToken = default);
+    #endregion
+
+    #region getPostById
+    Task<Post> GetPostByIdAsync(int postId , bool includeDetails= false, CancellationToken cancellationToken = default);
+    #endregion
+
+    #region createOrUpdatePostAsync
+    Task<Post> CreateOrUpdatePostAsync(Post post,IEnumerable<string> tags, CancellationToken cancellationToken = default);
     #endregion
 }
 

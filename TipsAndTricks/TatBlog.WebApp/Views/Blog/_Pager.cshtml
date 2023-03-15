@@ -29,7 +29,8 @@ Có tất cả @Model.TotalItemCount bài viết
     <div class="text-center">
         @if(Model.HasPreviousPage)
         {
-            <a asp-controller="Blog"
+            <a asp-area=""
+                asp-controller="Blog"
                asp-action="@actionName"
                asp-route-slug="@slug"
                asp-route-k="@postQuery.Keyword"
@@ -52,7 +53,8 @@ Có tất cả @Model.TotalItemCount bài viết
 
         @if(Model.HasNextPage)
         {
-            <a  asp-controller="Blog"
+            <a asp-area=""
+                asp-controller="Blog"
                 asp-action="@actionName"
                 asp-route-slug="@slug"
                 asp-route-k="@postQuery.Keyword"

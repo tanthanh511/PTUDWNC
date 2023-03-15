@@ -1,0 +1,60 @@
+﻿@model TatBlog.WebApp.Areas.Admin.Models.PostFilterModel
+@{
+    ViewData["PageTitle"] = "Danh sách bài viết";
+    var postsList = ViewBag.PostsList as IPagedList<Post>;
+}
+
+<h1>
+    Danh sách bai viet
+</h1>   
+<!-- hiển thị form để tìm bài-->
+<partial name="_PostFilterPane" model="Model"/>
+
+@if (postsList != null && postsList.Count>0)
+{
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>Tiêu đề</th>
+                <th>Tác giả</th>
+                <th>Chủ đề</th>
+                <th>Xuất bản</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var post in postsList)
+            {
+                <tr>
+                    <td>
+                        <a asp-area="Admin"
+                        asp-controller="Posts"
+                        asp-action="Edit"
+                        asp-route-id="@post.Id"
+                        class="Text-bold">
+                        @post.Title
+                        </a>
+
+                        <p class="text-muted">
+                            @post.ShortDesciption
+                        </p>
+                    </td>
+                    <td>
+                        @post.Author.FullName
+                    </td>
+                     <td>
+                        @post.Category.Name
+                    </td>
+                    <td>
+                        @(post.Publisded ? "Co" : "khong")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="text-danger">
+        khong tim thay bai viet nao
+    </h1>
+}

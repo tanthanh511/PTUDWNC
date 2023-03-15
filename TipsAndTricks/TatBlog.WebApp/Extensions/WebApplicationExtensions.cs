@@ -1,12 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 using TatBlog.Data.Contexts;
 using TatBlog.Data.Seeders;
 using TatBlog.Services.Blogs;
+using TatBlog.Services.Media;
 
 namespace TatBlog.WebApp.Extensions
 {
     public static class WebApplicationExtensions
     {
+        public static WebApplicationBuilder configureNLog(
+            this WebApplicationBuilder builder)
+        {
+            builder.Logging.ClearProviders();
+            builder.Host.UseNLog();
+            return builder;
+        }
         // Thêm các dịch vụ được yêu cầu bởi MVC Framework
         #region
         public static WebApplicationBuilder ConfigureMvc(
@@ -29,6 +38,7 @@ namespace TatBlog.WebApp.Extensions
                     buider.Configuration
                         .GetConnectionString("DefaultConnection")));
 
+            buider.Services.AddScoped<IMediaManager, LocalFileSystemMediaManager>();
             buider.Services.AddScoped<IBlogRepository, BlogRepository>();
             buider.Services.AddScoped<IDataSeeder, DataSeeder>();
 

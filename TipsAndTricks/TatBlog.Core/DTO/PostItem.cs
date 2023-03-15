@@ -8,7 +8,8 @@ namespace TatBlog.Core.DTO
 {
     public class PostItem
     {
-        
+        public string Tags { get; set; }
+        public string CategoryName { get; set; }
         public int PostedYear { get; set; }
         public int PostedMonth { get; set; }
         public int PostCount { get; set; }
