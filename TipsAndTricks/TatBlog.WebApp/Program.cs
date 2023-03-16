@@ -25,6 +25,7 @@ var app = builder.Build();
 
 app.Run();
 
+#region cách xử lí cũ
 //var builder = WebApplication.CreateBuilder(args);
 //{
 //    // thêm các dịch vụ được yêu cầ bởi MVC Framework
@@ -33,7 +34,7 @@ app.Run();
 //    //đăng kí các dịch vụ với DI container
 //    builder.Services.AddDbContext<BlogDbContext>(options=> options.UseSqlServer(
 //        builder.Configuration.GetConnectionString("DefaultConnection")));
-    
+
 //    builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 //    builder.Services.AddScoped<IDataSeeder, DataSeeder>();
 //}
@@ -92,3 +93,4 @@ app.Run();
 //}
 
 //app.Run();
+#endregion

@@ -16,8 +16,8 @@ namespace TatBlog.WebApp.Extensions
             builder.Host.UseNLog();
             return builder;
         }
-        // Thêm các dịch vụ được yêu cầu bởi MVC Framework
-        #region
+        
+        #region Thêm các dịch vụ được yêu cầu bởi MVC Framework
         public static WebApplicationBuilder ConfigureMvc(
             this WebApplicationBuilder buider)
         {
@@ -28,8 +28,8 @@ namespace TatBlog.WebApp.Extensions
         }
         #endregion
 
-        // Đăng kí các dịch vụ với DI Container
-        #region
+        
+        #region Đăng kí các dịch vụ với DI Container
         public static WebApplicationBuilder ConfigureServices(
             this WebApplicationBuilder buider)
         {
