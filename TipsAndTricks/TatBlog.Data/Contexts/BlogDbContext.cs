@@ -11,21 +11,26 @@ namespace TatBlog.Data.Contexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Post> Posts { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-62GFOD9;Initial Catalog=Tatblog;Integrated Security=True;MultipleActiveResultSets = true;TrustServerCertificate = True");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-62GFOD9;Initial Catalog=Tatblog;Integrated Security=True;MultipleActiveResultSets = true;TrustServerCertificate = True");
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(CategoryMap).Assembly);
         }
 
-        public BlogDbContext() { }
+        //public BlogDbContext() { }
 
         public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options)
         {
 
+        }
+
+        public BlogDbContext()
+        {
+            
         }
     }
 }

@@ -150,7 +150,7 @@ namespace TatBlog.WebApp.Controllers
                 PostedYear = year,
                 PostedMonth = month,
                 PostedDay = day,
-                CategorySlug = slug
+                PostSlug = slug
                 
                 
 
@@ -164,7 +164,7 @@ namespace TatBlog.WebApp.Controllers
 
             // truy vấn các bài viết theo điều kiện đã tạo
             var postsList = await _blogRepository
-                .GetPagedPostAsync(postQuery, pageNumber, pageSize);
+                .GetPostAsync(year, month, slug);
 
 
             // lưu lại điều kiện truy vấn để hiển thị trong view

@@ -24,7 +24,7 @@
                        asp-route-day="@Model.PostedDate.Day"
                        asp-route-slug="@Model.UrlSlug">
                     <h5 class="card-title">
-                        @Model.Title;
+                        @Model.Title
                     </h5>
                     </a>
                     <p class="card-text">
@@ -60,7 +60,7 @@
 
                     <div class="text-end">
                         <a asp-controller="Blog"
-                           asp-action="PostInfo"
+                           asp-action="Post"
                            asp-route-year="@Model.PostedDate.Year"
                            asp-route-month="@Model.PostedDate.Month"
                            asp-route-day="@Model.PostedDate.Day"

@@ -12,12 +12,12 @@ using Microsoft.EntityFrameworkCore;
 
 Console.WriteLine("HELLO");
 
-var context = new BlogDbContext();
+//var context = new BlogDbContext();
 
-IBlogRepository blogRepo = new BlogRepository(context);
+//IBlogRepository blogRepo = new BlogRepository(context);
 
-DataSeeder seeder = new DataSeeder(context);
-seeder.Initialize();
+//DataSeeder seeder = new DataSeeder(context);
+//seeder.Initialize();
 //#region"hàm tiếng việt"
 //Console.OutputEncoding = Encoding.UTF8;
 //#endregion

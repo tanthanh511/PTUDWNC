@@ -2,7 +2,14 @@
 @{
     ViewData["PageTitle"] = "Danh sách bài viết";
     var postsList = ViewBag.PostsList as IPagedList<Post>;
+    var stateList = new List<SelectListItem>
+    {
+        new SelectListItem("Co", "true"),
+        new SelectListItem("Khong", "false"),
+
+    };
 }
+
 
 <h1>
     Danh sách bai viet
@@ -19,6 +26,7 @@
                 <th>Tác giả</th>
                 <th>Chủ đề</th>
                 <th>Xuất bản</th>
+                <th>Xóa</th>
             </tr>
         </thead>
         <tbody>
@@ -45,12 +53,35 @@
                         @post.Category.Name
                     </td>
                     <td>
-                        @(post.Publisded ? "Co" : "khong")
+                        <a 
+                            asp-area="Admin"
+                            asp-controller="Posts"
+                            asp-action="TogglePublished"
+                            asp-route-id="@post.Id"  class="btn btn-sm @(post.Publisded ? "btn-success" : "btn-danger")">
+                            @if (post.Publisded)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-times"></i>
+                            }
+                        </a>
+                    </td>
+                    <td>
+                        <a 
+                            asp-area="Admin"
+                            asp-controller="Posts"
+                            asp-action="DeletePost"
+                            asp-route-id="@post.Id" class="btn btn-sm btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+    <partial name="_AdminPager" model="@postsList" />
 }
 else
 {

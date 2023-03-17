@@ -264,22 +264,23 @@ namespace TatBlog.Services.Blogs
         #endregion
 
         #region lấy và phân trang của category
-        public async Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(
-            IPagingParams pagingParams, 
-            CancellationToken cancellationToken = default)
-        {
-            return await _context.Set<Category>()
-                .Select(c => new CategoryItem {
-                    Id = c.Id,
-                    Name = c.Name,
-                    UrlSlug = c.UrlSlug,
-                    Description = c.Description,
-                    ShowOnMenu = c.ShowOnMenu,
-                    PostCount = c.Posts.Count(p=> p.Publisded),
-                })
-                .ToPagedListAsync(pagingParams, cancellationToken);
-            //throw new NotImplementedException();
-        }
+        //public async Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(
+        //    IPagingParams pagingParams, 
+        //    CancellationToken cancellationToken = default)
+        //{
+        //    return await _context.Set<Category>()
+        //        .Select(c => new CategoryItem {
+        //            Id = c.Id,
+        //            Name = c.Name,
+        //            UrlSlug = c.UrlSlug,
+        //            Description = c.Description,
+        //            ShowOnMenu = c.ShowOnMenu,
+        //            PostCount = c.Posts.Count(p=> p.Publisded),
+        //        })
+        //        .ToPagedListAsync(pagingParams, cancellationToken);
+        //    //throw new NotImplementedException();
+        //}
+
         #endregion
 
         #region tìm kiếm và phân trang của bài viết(post)
@@ -532,5 +533,74 @@ namespace TatBlog.Services.Blogs
             return post;
         }
         #endregion
+
+        public async Task<bool> DeletePostAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var post = await _context.Set<Post>().FindAsync(id);
+
+            if (post is null) return false;
+
+            _context.Set<Post>().Remove(post);
+            var rowsCount = await _context.SaveChangesAsync(cancellationToken);
+
+            return rowsCount > 0;
+        }
+
+        public async Task<bool> TogglePublishedFlagAsync(
+        int postId, CancellationToken cancellationToken = default)
+        {
+            var post = await _context.Set<Post>().FindAsync(postId);
+
+            if (post is null) return false;
+
+            post.Publisded = !post.Publisded;
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return post.Publisded;
+        }
+
+        public async Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(int pageNumber = 1, int pageSize = 10, CancellationToken cancellationToken = default)
+        {
+            var categoriesQuery = _context.Set<Category>()
+                .Select(x => new CategoryItem()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlSlug = x.UrlSlug,
+                    Description = x.Description,
+                    ShowOnMenu = x.ShowOnMenu,
+                    PostCount = x.Posts.Count(p => p.Publisded)
+                });
+            return await categoriesQuery.ToPagedListAsync(
+                pageNumber, pageSize,
+                nameof(Category.Name), "DESC",
+                cancellationToken);
+        }
+
+        public async Task<bool> ToggleShowOnMenuFlagAsync(int categoryId, CancellationToken cancellationToken = default)
+        {
+            var post = await _context.Set<Post>().FindAsync(categoryId);
+
+            if (post is null) return false;
+
+            post.Publisded = !post.Publisded;
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return post.Publisded;
+        }
+
+        public async Task<bool> DeleteCategoryAsync(int categoryId, CancellationToken cancellationToken = default)
+        {
+            var category = await _context.Set<Category>().FindAsync(categoryId);
+
+            if (category is null) return false;
+
+            _context.Set<Category>().Remove(category);
+            var rowsCount = await _context.SaveChangesAsync(cancellationToken);
+
+            return rowsCount > 0;
+        }
     }
+
+   
 }

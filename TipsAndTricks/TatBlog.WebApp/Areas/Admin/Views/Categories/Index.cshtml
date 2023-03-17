@@ -1,8 +1,77 @@
-﻿@{
-    ViewData["PageTitle"] = "chu de";
+﻿@*@model TatBlog.WebApp.Areas.Admin.Models.CategoryFilterModel*@
+
+@model IPagedList<CategoryItem>
+@{
+    ViewData["PageTitle"] = "Danh sách chủ đề";
+    var categoriesList = Model;
 }
 
 <h1>
     day la trang chu de
 
 </h1>
+<partial name="CategoryFilterPane" />
+@if (categoriesList != null && categoriesList.Count > 0)
+{
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>Tên</th>
+                <th>Nội dung</th>
+                <th>slug</th>
+                <th>show on menu</th>
+                <th>Xóa</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in categoriesList)
+            {
+                <tr>
+              
+                   
+                    <td>
+                        @category.Name
+                    </td>
+                    <td>
+                        @category.Description
+                    </td>
+                    <td>
+                        @category.UrlSlug
+                    </td>
+                   
+                    <td>
+                        <a asp-area="Admin"
+                   asp-controller="Categories"
+                   asp-action="ToggleShowOnMenu"
+                   asp-route-id="@category.Id" class="btn btn-sm @(category.ShowOnMenu ? "btn-success" : "btn-danger")">
+                            @if (category.ShowOnMenu)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-times"></i>
+                            }
+                        </a>
+      
+                    </td>
+                    <td>
+                        <a asp-area="Admin"
+                   asp-controller="Categories"
+                   asp-action="DeleteCategory"
+                   asp-route-id="@category.Id" class="btn btn-sm btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    //<partial name="_AdminPagerCategory" model="@postsList" />
+}
+else
+{
+    <h1 class="text-danger">
+        khong tim thay bai viet nao
+    </h1>
+}

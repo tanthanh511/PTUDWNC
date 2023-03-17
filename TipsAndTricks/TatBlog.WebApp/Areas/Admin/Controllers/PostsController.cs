@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TatBlog.Core.Constants;
 using TatBlog.Core.Entities;
+using TatBlog.Data.Contexts;
 using TatBlog.Services.Blogs;
 using TatBlog.Services.Media;
 using TatBlog.WebApp.Areas.Admin.Models;
@@ -28,10 +29,13 @@ public class PostsController : Controller
         _mediaManager = mediaManager;
         _mapper = mapper;
     }
-    public async Task<IActionResult> Index(PostFilterModel model)
+    public async Task<IActionResult> Index(
+        PostFilterModel model,
+        [FromQuery(Name ="p")] int pageNumber =1,
+        [FromQuery(Name = "ps")] int pageSize = 5)
     {
-       // var postQuery = new PostQuery()
-         
+        // var postQuery = new PostQuery()
+
         //{
         //    Keyword = model.Keyword,
         //    CategoryId = model.CategoryID,
@@ -39,16 +43,36 @@ public class PostsController : Controller
         //    PostedYear = model.Year,
         //    PostedMonth = model.Month
         //};
+       
+         
+        _logger.LogInformation("Tạo điều kiện truy vấn");
 
         // Sử dụng mapster để tạo đối tượng từ đối tượng postFilterModel model 
         var postQuery = _mapper.Map<PostQuery>(model);
 
-        ViewBag.PostsList = await _blogRepository
-            .GetPagedPostAsync(postQuery, 1,10);
+        _logger.LogInformation("lấy danh sách bài viết từ cơ sở dữ liệu");
+        ViewBag.PostsList = await _blogRepository.GetPagedPostAsync(postQuery, pageNumber, pageSize);
+
+        _logger.LogInformation(" chuẩn bị dữ liệu cho viewmodel");
 
         await PopulatePostFilterModelAsync(model);
         return View(model);
     }
+
+   
+    public async Task<IActionResult> DeletePost(int id = 0)
+    {
+        await _blogRepository.DeletePostAsync(id);
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> TogglePublished(int id = 0)
+    {
+        await _blogRepository.TogglePublishedFlagAsync(id);
+        return RedirectToAction(nameof(Index));
+    }
+
+
     #region PopulatePostFilterModelAsync
     private async Task PopulatePostFilterModelAsync(PostFilterModel model)
     {

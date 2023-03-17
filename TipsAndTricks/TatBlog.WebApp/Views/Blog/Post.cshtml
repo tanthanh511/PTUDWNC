@@ -1,24 +1,21 @@
-﻿@using TatBlog.Core.Constants;
+﻿@model Post
 
-@model PagedList<Post>
+<div class="main">
+    <div class="card-body">
+        <a>
+            <h5 class="card-title">
+                @Model.Title;
+            </h5>
+            <h6>
+                @Model.Id,
+                @Model.ShortDesciption,
+                @Model.PostedDate,
+                @Model.Viewcount,
+                @Model.Category.Name
+                @Model.Author.FullName;
+            </h6>
 
-@{
-    ViewData["PageTitle"] = "Post";
-    var postQuery = (ViewBag.PostQuery as PostQuery) ?? new PostQuery();
-}
+        </a>
+    </div>
 
-<div class="p-4">
-  
-    @if (!string.IsNullOrWhiteSpace(postQuery.CategorySlug))
-    {
-        <h3 class="text-primary mb-3">
-            Nhung bai viet chua tu khoa '@postQuery.CategorySlug'
-        </h3>
-    }
-    @foreach (var postItem in Model)
-    {
-        <partial name="_PostList" model="postItem" />
-    }
-    <partial name="_Pager" model="@Model" />
 </div>
-
