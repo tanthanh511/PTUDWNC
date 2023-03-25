@@ -25,18 +25,13 @@
                 pattern: "blog/tag/{slug}",
                 defaults: new { controller = "Blog", action = "Tag" });
 
-            // post/xem chi tiết
-            endpoints.MapControllerRoute(
-                name: "single-postinfo",
-                pattern: "blog/postinfo/{year:int}/{month:int}/{day:int}/{slug}",
-                defaults: new { controller = "Blog", action = "PostInfo" });
 
             #endregion
 
             // post year/month/day
             endpoints.MapControllerRoute(
                 name: "single-post",
-                pattern: "blog/post/{year:int}/{month:int}/{slug}",
+                pattern: "blog/post/{year:int}/{month:int}/{day:int}/{slug}",
                 defaults: new { controller = "Blog", action = "Post" });
 
             // archives

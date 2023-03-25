@@ -47,6 +47,13 @@
                     <option value="" selected>-- Chọn chủ đề --</option>
                 </select>
             </div>
+            <div class="col-auto">
+                <label class="form-check-label" for="flexCheckDefault" asp-for="NotPublisded"></label>
+                <input class="form-check-input" type="checkbox" value="" id="" asp-for="NotPublisded">
+               
+            </div>
+
+    
 
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Tìm/lọc</button>
@@ -57,5 +64,14 @@
                 class="btn btn-success">
                     Thêm mới
                 </a>
+
+            <a asp-area="Admin"
+               asp-controller="Posts"
+               asp-action="Index"
+           class="btn btn-warning">
+             Bỏ lọc
+        </a>
             </div>
+            
+
     </form>

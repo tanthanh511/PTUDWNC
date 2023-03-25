@@ -4,26 +4,43 @@ using TatBlog.WebApp.Validations;
 using NLog;
 using NLog.Web;
 
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+logger.Debug("init main");
 
-
-var builder = WebApplication.CreateBuilder(args);
+try
 {
-    builder
-        .ConfigureMvc()
-        .configureNLog()
-        .ConfigureServices()
-        .ConfigureMapster()
-        .ConfigureFluentValidation();
+    var builder = WebApplication.CreateBuilder(args);
+    {
+        builder
+            .ConfigureMvc()
+            .configureNLog()
+            .ConfigureServices()
+            .ConfigureMapster()
+            .ConfigureFluentValidation();
+    }
+   
+    var app = builder.Build();
+    {
+        app.UseRequestPipeline();
+        app.UseBlogRoutes();
+        app.UseDataSeeder();
+    }
+
+    app.Run();
+}
+// thêm Nlog
+catch (Exception ex)
+{
+    logger.Error(ex, "stopped program because of exception");
+    throw;
 }
 
-var app = builder.Build();
+finally
 {
-    app.UseRequestPipeline();
-    app.UseBlogRoutes();
-    app.UseDataSeeder();
+    NLog.LogManager.Shutdown();
 }
+ 
 
-app.Run();
 
 #region cách xử lí cũ
 //var builder = WebApplication.CreateBuilder(args);

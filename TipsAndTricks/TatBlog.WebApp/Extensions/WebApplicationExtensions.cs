@@ -9,6 +9,7 @@ namespace TatBlog.WebApp.Extensions
 {
     public static class WebApplicationExtensions
     {
+        // Nlog
         public static WebApplicationBuilder configureNLog(
             this WebApplicationBuilder builder)
         {
@@ -16,7 +17,7 @@ namespace TatBlog.WebApp.Extensions
             builder.Host.UseNLog();
             return builder;
         }
-        
+        //--------------------------------------------
         #region Thêm các dịch vụ được yêu cầu bởi MVC Framework
         public static WebApplicationBuilder ConfigureMvc(
             this WebApplicationBuilder buider)
