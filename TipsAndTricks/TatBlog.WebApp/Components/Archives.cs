@@ -3,17 +3,23 @@ using TatBlog.Data.Contexts;
 using TatBlog.Services.Blogs;
 
 namespace TatBlog.WebApp.Components;
-public class Archives : ViewComponent
+
+    public class Archives : ViewComponent
 {
+
     private readonly IBlogRepository _blogRepository;
+
     public Archives(IBlogRepository blogRepository)
     {
-        _blogRepository = blogRepository;        
+        _blogRepository = blogRepository;
     }
+
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var posts = await _blogRepository.CountPostsNMonthAsync(12);
-            return View(posts);
+        // lấy danh sách chủ đề
+        var archivesPosts = await _blogRepository.CountPostsNMonthAsync(12);
+        return View(archivesPosts);
     }
 }
+
 

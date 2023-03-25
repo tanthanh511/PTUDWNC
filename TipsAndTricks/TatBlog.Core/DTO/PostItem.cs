@@ -8,9 +8,10 @@ namespace TatBlog.Core.DTO
 {
     public class PostItem
     {
-        
         public int PostedYear { get; set; }
         public int PostedMonth { get; set; }
+        public string UrlSlug { get; set; }
+       // public string TagUrl { get; set; }
         public int PostCount { get; set; }
     }
 }

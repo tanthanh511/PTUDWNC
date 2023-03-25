@@ -5,7 +5,7 @@
         public static IEndpointRouteBuilder UseBlogRoutes(
             this IEndpointRouteBuilder endpoints)
         {
-            // blog.com/category/abc
+         
             #region postList
             // category
             endpoints.MapControllerRoute(
@@ -46,11 +46,16 @@
                 pattern: "blog/archives/{year:int}/{month:int}",
                 defaults: new { controller = "Blog", action = "Archives" });
 
-            //fea
+            //featured
             endpoints.MapControllerRoute(
                 name: "featured-post",
-                pattern: "blog/post/{year:int}/{month:int}/{slug}",
+                pattern: "blog/featuredposts/{slug}/{view}",
                 defaults: new { controller = "Blog", action = "FeaturedPosts" });
+
+            endpoints.MapControllerRoute(
+               name: "login-post",
+               pattern: "blog/login",
+               defaults: new { controller = "Blog", action = "Login" });
 
 
             // main

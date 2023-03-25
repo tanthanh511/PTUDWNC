@@ -54,7 +54,7 @@ namespace TatBlog.Services.Blogs
            
         }
         #endregion
-
+        
         // GetPopularArticlesAsync
         #region
         public async Task<IList<Post>> GetPopularArticlesAsync(int numPosts, CancellationToken cancellationToken = default)
@@ -436,6 +436,68 @@ namespace TatBlog.Services.Blogs
              .ThenByDescending(x => x.PostedMonth)
              .ToListAsync(cancellationToken);
         }
+
+
         #endregion
+
+        public async Task<IList<Post>> GetRandomArticlesAsync(int numPosts, CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Post>()
+             .OrderBy(x => Guid.NewGuid())
+             .Take(numPosts)
+             .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IList<TagItem>> GetTagsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Tag>()
+            .OrderBy(x => x.Name)
+            .Select(x => new TagItem()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                UrlSlug = x.UrlSlug,
+                Description = x.Description,
+                PostCount = x.Posts.Count(p => p.Publisded)
+            })
+            .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IList<AuthorItem>> GetAuthorsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Author>()
+             .OrderBy(a => a.FullName)
+             .Select(a => new AuthorItem()
+             {
+                 Id = a.Id,
+                 FullName = a.FullName,
+                 Email = a.ToString(),
+                 JoinedDate = a.JoinedDate,
+                 ImageUrl = a.ImageUrl,
+                 UrlSlug = a.UrlSlug,
+                 Notes = a.Notes,
+                 PostCount = a.Posts.Count(p => p.Publisded)
+             })
+             .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IList<AuthorItem>> ListAuthorAsync(int N, CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Author>()
+           .Select(x => new AuthorItem()
+           {
+               Id = x.Id,
+               FullName = x.FullName,
+               UrlSlug = x.UrlSlug,
+               ImageUrl = x.ImageUrl,
+               JoinedDate = x.JoinedDate,
+               Email = x.Email,
+               Notes = x.Notes,
+               PostCount = x.Posts.Count(p => p.Publisded)
+           })
+           .OrderByDescending(x => x.PostCount)
+           .Take(N)
+           .ToListAsync(cancellationToken);
+        }
     }
 }

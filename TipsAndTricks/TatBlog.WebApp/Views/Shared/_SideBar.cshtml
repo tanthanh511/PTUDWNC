@@ -12,8 +12,14 @@
     
     <!--Đăng kí nhận tin mới-->
     @await Component.InvokeAsync("FeaturedPosts")
-    
+
+    <!--lấy thẻ tag-->
+    @await Component.InvokeAsync("TagCloud")
+
     <!--tag cloud-->
-    <h1>Tag cloud</h1>
+    @await Component.InvokeAsync("RandomPosts")
+
+    <!--best author-->
+    @await Component.InvokeAsync("BestAuthor")
    
 </div>
