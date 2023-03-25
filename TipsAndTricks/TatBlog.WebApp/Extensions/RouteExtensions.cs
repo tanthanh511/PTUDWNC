@@ -51,7 +51,7 @@
                 pattern: "blog/featuredposts/{slug}/{view}",
                 defaults: new { controller = "Blog", action = "FeaturedPosts" });
 
-<<<<<<< HEAD
+
             //Admin
             endpoints.MapControllerRoute(
                 name: "admin-area",
@@ -83,13 +83,13 @@
                name: "comment-area",
                pattern: "admin/{controller=Comments}/{action=Index}/{id?}",
                defaults: new { area = "Admin" });
-=======
+
             endpoints.MapControllerRoute(
                name: "login-post",
                pattern: "blog/login",
                defaults: new { controller = "Blog", action = "Login" });
 
->>>>>>> lab02-practice
+
 
             // main
             endpoints.MapControllerRoute(

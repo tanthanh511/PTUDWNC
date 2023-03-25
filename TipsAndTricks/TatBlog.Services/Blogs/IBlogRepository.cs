@@ -123,15 +123,15 @@ public interface IBlogRepository
        string slug,
        CancellationToken cancellationToken = default);
 
-<<<<<<< HEAD
+
     #region getAuthorAsync
     Task<IList<AuthorItem>> GetAuthorsAsync(CancellationToken cancellationToken = default);
     #endregion
 
     #region lấy bài tất cả những gì có trong bài post
-=======
 
->>>>>>> lab02-practice
+
+
     //Task<IPagedList<Post>> GetPostsAsync(
     //    PostQuery  condition,
     //    int pageNumber=1,
@@ -142,7 +142,7 @@ public interface IBlogRepository
 
     Task<IList<PostItem>> CountPostsNMonthAsync(
         int n, CancellationToken cancellationToken = default);
-<<<<<<< HEAD
+
     #endregion
 
     #region getPostById
@@ -152,7 +152,7 @@ public interface IBlogRepository
     #region createOrUpdatePostAsync
     Task<Post> CreateOrUpdatePostAsync(Post post,IEnumerable<string> tags, CancellationToken cancellationToken = default);
     #endregion
-=======
+
 
 
     Task<IList<Post>> GetRandomArticlesAsync(
@@ -160,8 +160,10 @@ public interface IBlogRepository
 
     Task<IList<TagItem>> GetTagsAsync(CancellationToken cancellationToken = default);
 
-    Task<IList<AuthorItem>> GetAuthorsAsync(CancellationToken cancellationToken = default);
+    //Task<IList<AuthorItem>> GetAuthorsAsync(CancellationToken cancellationToken = default);
+
+
     Task<IList<AuthorItem>> ListAuthorAsync(int N, CancellationToken cancellationToken = default);
->>>>>>> lab02-practice
+
 }
 
