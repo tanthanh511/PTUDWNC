@@ -159,10 +159,6 @@ public interface IBlogRepository
         int numPosts, CancellationToken cancellationToken = default);
 
     Task<IList<TagItem>> GetTagsAsync(CancellationToken cancellationToken = default);
-
-    //Task<IList<AuthorItem>> GetAuthorsAsync(CancellationToken cancellationToken = default);
-
-
     Task<IList<AuthorItem>> ListAuthorAsync(int N, CancellationToken cancellationToken = default);
 
 }
