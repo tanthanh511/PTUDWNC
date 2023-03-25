@@ -16,8 +16,6 @@ public class FeaturedPosts :  ViewComponent
         // lấy danh sách chủ đề
         var featuredPosts = await _blogRepository.GetPopularArticlesAsync(3);
         return View(featuredPosts);
-
-
     }
 }
 

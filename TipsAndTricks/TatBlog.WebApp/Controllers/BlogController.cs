@@ -74,7 +74,7 @@ namespace TatBlog.WebApp.Controllers
 
         #region tìm author theo slug
         public async Task<IActionResult> Author(
-             [FromRoute(Name = "slug")] string slug = null,
+             [FromRoute(Name = "slug")] string slug,
              [FromQuery(Name = "p")] int pageNumber = 1,
              [FromQuery(Name = "ps")] int pageSize = 5)
         {
@@ -103,7 +103,7 @@ namespace TatBlog.WebApp.Controllers
 
         #region tìm tag theo slug
         public async Task<IActionResult> Tag(
-             [FromRoute(Name = "slug")] string slug = null,
+             [FromRoute(Name = "slug")] string slug ,
              [FromQuery(Name = "p")] int pageNumber = 1,
              [FromQuery(Name = "ps")] int pageSize = 10)
         {
@@ -233,42 +233,6 @@ namespace TatBlog.WebApp.Controllers
         }
         #endregion
 
-        //#region FeaturedPosts
-        //public async Task<IActionResult> FeaturedPosts(
-
-        //   [FromRoute(Name = "slug")] string slug,
-        //   [FromRoute(Name = "view")] int view,
-        //   int pageNumber = 1,
-        //   int pageSize = 5)
-        //{
-
-        //    var postQuery = new PostQuery()
-        //    {
-
-        //        // chỉ lấy những bài viết có trạng thái pub
-        //        PublishedOnly = true,
-        //        Viewcount = view,
-        //        CategorySlug = slug
-        //        // tìm bài viết theo từ khóa
-
-        //    };
-
-        //    // truy vấn các bài viết theo điều kiện đã tạo
-        //    var postsList = await _blogRepository
-        //        .GetPagedPostAsync(postQuery, pageNumber, pageSize);
-
-
-        //    // lưu lại điều kiện truy vấn để hiển thị trong view
-        //    ViewBag.PostQuery = postQuery;
-
-        //    // truyền danh sách bài viết vào view để render ra html
-        //    return View(postsList);
-        //}
-
-        //#endregion
-
-
-
 
         public IActionResult Contact()=> View();
 
@@ -277,5 +241,7 @@ namespace TatBlog.WebApp.Controllers
         public IActionResult Rss()
             => Content("Nội dung sẽ được cập nhập");
 
+        public IActionResult Login() => View();
+        
     }
 }
