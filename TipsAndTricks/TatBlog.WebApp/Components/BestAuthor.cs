@@ -12,8 +12,8 @@ namespace TatBlog.WebApp.Components
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var tags = await _blogRepository.ListAuthorAsync(4);
-            return View(tags);
+            var authors = await _blogRepository.ListAuthorAsync(4);
+            return View(authors);
         }
     }
 }

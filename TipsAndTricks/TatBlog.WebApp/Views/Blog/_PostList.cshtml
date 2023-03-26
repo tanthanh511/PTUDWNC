@@ -17,7 +17,8 @@
 
             <div class="col-md-8">
                 <div class="card-body">
-                    <a asp-controller="Blog"
+                    <a asp-area=""
+                        asp-controller="Blog"
                        asp-action="PostInfo"
                        asp-route-year="@Model.PostedDate.Year"
                        asp-route-month="@Model.PostedDate.Month"
@@ -32,7 +33,8 @@
                         <small class="text-muted">
                             Tác giả
                         </small>
-                        <a asp-controller="Blog"
+                        <a asp-area=""
+                            asp-controller="Blog"
                            asp-action="Author"
                            asp-route-slug="@Model.Author.UrlSlug">
                         <span class="text-primary">
@@ -43,7 +45,8 @@
                         <small class="text-muted">
                             Chủ đề
                         </small>
-                        <a asp-controller="Blog"
+                        <a asp-area=""
+                            asp-controller="Blog"
                            asp-action="Category"
                            asp-route-slug="@Model.Category.UrlSlug">
                         <span class="text-primary">
@@ -59,8 +62,9 @@
                     </div>
 
                     <div class="text-end">
-                        <a asp-controller="Blog"
-                           asp-action="Post"
+                        <a asp-area=""
+                            asp-controller="Blog"
+                           asp-action="PostInfo"
                            asp-route-year="@Model.PostedDate.Year"
                            asp-route-month="@Model.PostedDate.Month"
                            asp-route-day="@Model.PostedDate.Day"

@@ -34,6 +34,11 @@
                 pattern: "blog/post/{year:int}/{month:int}/{day:int}/{slug}",
                 defaults: new { controller = "Blog", action = "Post" });
 
+            endpoints.MapControllerRoute(
+               name: "post-info",
+               pattern: "blog/postinfo/{year:int}/{month:int}/{day:int}/{slug}",
+               defaults: new { controller = "Blog", action = "PostInfo" });
+
             // archives
             endpoints.MapControllerRoute(
                 name: "archives-post",
@@ -58,33 +63,37 @@
                 name: "author-area",
                 pattern: "admin/{controller=Authors}/{action=Index}/{id?}",
                 defaults: new { area = "Admin" });
+            #region Admin
             // categori admin  
             endpoints.MapControllerRoute(
                name: "category-area",
                pattern: "admin/{controller=Categories}/{action=Index}/{id?}",
                defaults: new { area = "Admin" });
+
             // post admin  
             endpoints.MapControllerRoute(
                name: "post-area",
                pattern: "admin/{controller=Posts}/{action=Index}/{id?}",
                defaults: new { area = "Admin" });
+
             // tag admin  
             endpoints.MapControllerRoute(
                name: "tag-area",
                pattern: "admin/{controller=Tags}/{action=Index}/{id?}",
                defaults: new { area = "Admin" });
+
             // comment admin  
             endpoints.MapControllerRoute(
                name: "comment-area",
                pattern: "admin/{controller=Comments}/{action=Index}/{id?}",
                defaults: new { area = "Admin" });
-
+            #endregion
             endpoints.MapControllerRoute(
                name: "login-post",
                pattern: "blog/login",
                defaults: new { controller = "Blog", action = "Login" });
 
-
+         
 
             // main
             endpoints.MapControllerRoute(

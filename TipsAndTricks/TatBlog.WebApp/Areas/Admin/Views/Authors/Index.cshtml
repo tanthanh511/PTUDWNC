@@ -1,8 +1,91 @@
-﻿@{
+﻿@*@{
     ViewData["PageTitle"] = "tac gia";
 }
 
 <h1>
     day la trang tac gia
 
+</h1>*@
+
+@*@model TatBlog.WebApp.Areas.Admin.Models.CategoryFilterModel*@
+
+@model IPagedList<AuthorItem>
+@{
+    ViewData["PageTitle"] = "Danh sách chủ đề";
+    var authorsList = Model;
+}
+
+<h1>
+    day la trang chu de
+
 </h1>
+<partial name="AuthorFilterPane" />
+@if (authorsList != null && authorsList.Count > 0)
+{
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>full name</th>
+                <th>UrlSlug</th>
+                <th>email</th>
+                <th>notes</th>
+                <th>Xóa</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var author in authorsList)
+            {
+                <tr>
+
+
+                    <td>
+                        @author.FullName
+                    </td>
+                    <td>
+                        @author.UrlSlug
+                    </td>
+                    <td>
+                        @author.Email
+                    </td>
+
+                    <td>
+                        @author.Notes
+                    </td>
+                   
+
+                   @* <td>
+                        <a asp-area="Admin"
+                   asp-controller="Categories"
+                   asp-action="ToggleShowOnMenu"
+                   asp-route-id="@author.Id" class="btn btn-sm @(author.ShowOnMenu ? "btn-success" : "btn-danger")">
+                            @if (author.ShowOnMenu)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-times"></i>
+                            }
+                        </a>
+
+                    </td>*@
+                    <td>
+                        <a asp-area="Admin"
+                   asp-controller="Authors"
+                   asp-action="DeleteAuthor"
+                   asp-route-id="@author.Id" class="btn btn-sm btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+   @* <partial name="_AdminPagerAuthor" model="@postsList" />*@
+}
+else
+{
+    <h1 class="text-danger">
+        không tim thay tác giả nào
+    </h1>
+}

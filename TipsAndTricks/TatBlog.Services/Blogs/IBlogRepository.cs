@@ -154,7 +154,6 @@ public interface IBlogRepository
     Task<Post> CreateOrUpdatePostAsync(Post post,IEnumerable<string> tags, CancellationToken cancellationToken = default);
     #endregion
 
-<<<<<<< HEAD
 
 
     Task<IList<Post>> GetRandomArticlesAsync(
@@ -162,7 +161,7 @@ public interface IBlogRepository
 
     Task<IList<TagItem>> GetTagsAsync(CancellationToken cancellationToken = default);
     Task<IList<AuthorItem>> ListAuthorAsync(int N, CancellationToken cancellationToken = default);
-=======
+
     Task<bool> DeletePostAsync(int id, CancellationToken cancellationToken = default);
     Task<bool> TogglePublishedFlagAsync(
         int postId, CancellationToken cancellationToken = default);
@@ -170,7 +169,19 @@ public interface IBlogRepository
         int categoryId, CancellationToken cancellationToken = default);
     Task<bool> DeleteCategoryAsync(
        int categoryId, CancellationToken cancellationToken = default);
->>>>>>> lab3_Practice
 
+    //Task<IPagedList<AuthorItem>> GetPagedAuthorsAsync(
+    //    IPagingParams pagingParams,
+    //    CancellationToken cancellationToken = default);
+
+
+    Task<IPagedList<AuthorItem>> GetPagedAuthorsAsync(
+         int pageNumber = 1,
+        int pageSize = 10,
+        CancellationToken cancellationToken = default);
+    Task<bool> DeleteAuthorAsync(
+        int authorId, CancellationToken cancellationToken = default);
+
+    Task<IPagedList<TagItem>> GetPagedTagsAsync(int pageNumber = 1, int pageSize = 10, CancellationToken cancellationToken = default);
 }
 

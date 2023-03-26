@@ -119,26 +119,44 @@ namespace TatBlog.Services.Blogs
 
         //lấy danh sach tu khao the va phan trang 
         #region
-        public async Task<IPagedList<TagItem>> GetPagedTagsAsync(
-            IPagingParams pagingParams,
-            CancellationToken cancellationToken = default)
+        //public async Task<IPagedList<TagItem>> GetPagedTagsAsync(
+        //    IPagingParams pagingParams,
+        //    CancellationToken cancellationToken = default)
+        //{
+        //    var tagQuery = _context.Set<Tag>()
+        //        .Select(x => new TagItem()
+        //        {
+        //            Id = x.Id,
+        //            Name = x.Name,
+        //            UrlSlug= x.UrlSlug,
+        //            Description= x.Description,
+        //            PostCount = x.Posts.Count(p=> p.Publisded)
+        //        });
+        //    return await tagQuery
+        //        .ToPagedListAsync(pagingParams, cancellationToken);
+        //}
+
+        public async Task<IPagedList<TagItem>> GetPagedTagsAsync(int pageNumber = 1, int pageSize = 10, CancellationToken cancellationToken = default)
         {
-            var tagQuery = _context.Set<Tag>()
+            var tagsQuery = _context.Set<Tag>()
                 .Select(x => new TagItem()
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    UrlSlug= x.UrlSlug,
-                    Description= x.Description,
-                    PostCount = x.Posts.Count(p=> p.Publisded)
+                    UrlSlug = x.UrlSlug,
+                    Description = x.Description,
+
+                    PostCount = x.Posts.Count(p => p.Publisded)
                 });
-            return await tagQuery
-                .ToPagedListAsync(pagingParams, cancellationToken);
+            return await tagsQuery.ToPagedListAsync(
+                pageNumber, pageSize,
+                nameof(Category.Name), "DESC",
+                cancellationToken);
         }
         #endregion
 
-        // tìm một thẻ tag có định danh là slug
-        #region
+            // tìm một thẻ tag có định danh là slug
+            #region
         public async Task<Tag> GetTagAsync(string slug, CancellationToken cancellationToken = default)
         {
 
@@ -536,7 +554,7 @@ namespace TatBlog.Services.Blogs
 
         #endregion
 
-<<<<<<< HEAD
+
         public async Task<IList<Post>> GetRandomArticlesAsync(int numPosts, CancellationToken cancellationToken = default)
         {
             return await _context.Set<Post>()
@@ -560,24 +578,6 @@ namespace TatBlog.Services.Blogs
             .ToListAsync(cancellationToken);
         }
 
-        //public async Task<IList<AuthorItem>> GetAuthorsAsync(CancellationToken cancellationToken = default)
-        //{
-        //    return await _context.Set<Author>()
-        //     .OrderBy(a => a.FullName)
-        //     .Select(a => new AuthorItem()
-        //     {
-        //         Id = a.Id,
-        //         FullName = a.FullName,
-        //         Email = a.ToString(),
-        //         JoinedDate = a.JoinedDate,
-        //         ImageUrl = a.ImageUrl,
-        //         UrlSlug = a.UrlSlug,
-        //         Notes = a.Notes,
-        //         PostCount = a.Posts.Count(p => p.Publisded)
-        //     })
-        //     .ToListAsync(cancellationToken);
-        //}
-
         public async Task<IList<AuthorItem>> ListAuthorAsync(int N, CancellationToken cancellationToken = default)
         {
             return await _context.Set<Author>()
@@ -595,7 +595,7 @@ namespace TatBlog.Services.Blogs
            .OrderByDescending(x => x.PostCount)
            .Take(N)
            .ToListAsync(cancellationToken);
-=======
+        }
         public async Task<bool> DeletePostAsync(int id, CancellationToken cancellationToken = default)
         {
             var post = await _context.Set<Post>().FindAsync(id);
@@ -661,7 +661,53 @@ namespace TatBlog.Services.Blogs
             var rowsCount = await _context.SaveChangesAsync(cancellationToken);
 
             return rowsCount > 0;
->>>>>>> lab3_Practice
+
+        }
+
+        //public async Task<IPagedList<AuthorItem>> GetPagedAuthorsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default)
+        //{
+        //    var tagQuery = _context.Set<Author>()
+        //      .Select(x => new AuthorItem()
+        //      {
+                 
+        //      });
+
+        //    return await tagQuery.ToPagedListAsync(pagingParams, cancellationToken);
+        //}
+
+        public async Task<IPagedList<AuthorItem>> GetPagedAuthorsAsync(int pageNumber = 1, int pageSize = 10, CancellationToken cancellationToken = default)
+        {
+            var authorsQuery = _context.Set<Author>()
+                .Select(x => new AuthorItem()
+                {
+                    Id = x.Id,
+                    FullName = x.FullName,
+                    UrlSlug = x.UrlSlug,
+                    Email = x.Email,
+                    Notes = x.Notes,
+                    PostCount = x.Posts.Count(p => p.Publisded)
+                }) ;
+            return await authorsQuery.ToPagedListAsync(
+                pageNumber, pageSize,
+                nameof(Author.FullName), "DESC",
+                cancellationToken);
+        }
+
+        public async Task<bool> DeleteAuthorAsync(int authorId, CancellationToken cancellationToken = default)
+        {
+            var author = await _context.Set<Author>().FindAsync(authorId);
+
+            if (author is null) return false;
+
+            _context.Set<Author>().Remove(author);
+            var rowsCount = await _context.SaveChangesAsync(cancellationToken);
+
+            return rowsCount > 0;
+        }
+
+        public Task<IPagedList<TagItem>> GetPagedTagsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 

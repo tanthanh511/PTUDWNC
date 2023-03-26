@@ -1,8 +1,86 @@
-﻿@{
+﻿@*@{
     ViewData["PageTitle"] = "the";
 }
 
 <h1>
     day la trang the
 
+</h1>*@
+
+@*@model TatBlog.WebApp.Areas.Admin.Models.CategoryFilterModel*@
+
+@model IPagedList<TagItem>
+@{
+    ViewData["PageTitle"] = "Danh sách chủ đề";
+    var tagsList = Model;
+}
+
+<h1>
+    day la trang chu de
+
 </h1>
+<partial name="TagFilterPane" />
+@if (tagsList != null && tagsList.Count > 0)
+{
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>Tên</th>
+                <th>Nội dung</th>
+                <th>slug</th>
+             
+                <th>Xóa</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tag in tagsList)
+            {
+                <tr>
+
+
+                    <td>
+                        @tag.Name
+                    </td>
+                    <td>
+                        @tag.Description
+                    </td>
+                    <td>
+                        @tag.UrlSlug
+                    </td>
+@*
+                    <td>
+                        <a asp-area="Admin"
+                   asp-controller="Tags"
+                   asp-action="ToggleShowOnMenu"
+                   asp-route-id="@category.Id" class="btn btn-sm @(category.ShowOnMenu ? "btn-success" : "btn-danger")">
+                            @if (category.ShowOnMenu)
+                            {
+                                <i class="fa fa-check"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-times"></i>
+                            }
+                        </a>
+
+                    </td>*@
+                    <td>
+                        <a asp-area="Admin"
+                   asp-controller="Tags"
+                   asp-action="DeleteTags"
+                   asp-route-id="@tag.Id" class="btn btn-sm btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    //<partial name="_AdminPagerCategory" model="@postsList" />
+}
+else
+{
+    <h1 class="text-danger">
+        khong tim thay bai viet nao
+    </h1>
+}

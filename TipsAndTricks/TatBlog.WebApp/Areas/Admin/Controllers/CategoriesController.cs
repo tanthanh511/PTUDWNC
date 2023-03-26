@@ -10,17 +10,17 @@ namespace TatBlog.WebApp.Areas.Admin.Controllers;
 
 public class CategoriesController : Controller
 {
-    private readonly ILogger<PostsController> _logger;
+    private readonly ILogger<CategoriesController> _logger;
     private readonly IBlogRepository _blogRepository;
     private readonly IMediaManager _mediaManager;
 
     private readonly IMapper _mapper;
-    private readonly IValidator<PostEditModel> _postValidator;
+    //private readonly IValidator<PostEditModel> _postValidator;
 
     public CategoriesController(IBlogRepository blogRepository, IValidator<PostEditModel> postValidator, ILogger<PostsController> logger, IMediaManager mediaManager, IMapper mapper)
     {
-        _postValidator = postValidator;
-        _logger = logger;
+        //_postValidator = postValidator;
+        //_logger = logger;
         _blogRepository = blogRepository;
         _mediaManager = mediaManager;
         _mapper = mapper;
