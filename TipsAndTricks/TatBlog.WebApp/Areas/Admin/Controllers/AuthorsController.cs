@@ -11,15 +11,17 @@ public class AuthorsController :Controller
     private readonly ILogger<AuthorsController> _logger;
     private readonly IBlogRepository _blogRepository;
     private readonly IMediaManager _mediaManager;
+    private readonly IAuthorRepository _authorRepository;
     private readonly IMapper _mapper;
     //private readonly IValidator<PostEditModel> _postValidator;
-    public AuthorsController(IBlogRepository blogRepository, IValidator<PostEditModel> postValidator, ILogger<PostsController> logger, IMediaManager mediaManager, IMapper mapper)
+    public AuthorsController(IBlogRepository blogRepository, IValidator<PostEditModel> postValidator, ILogger<PostsController> logger, IMediaManager mediaManager, IMapper mapper, IAuthorRepository authorRepository)
     {
         //_postValidator = postValidator;
         //_logger = logger;
         _blogRepository = blogRepository;
         _mediaManager = mediaManager;
         _mapper = mapper;
+        _authorRepository = authorRepository;
     }
     public async Task<IActionResult> Index(
        //CategoryFilterModel model,
@@ -27,7 +29,7 @@ public class AuthorsController :Controller
        [FromQuery(Name = "ps")] int pageSize = 5)
     {
 
-        var model = await _blogRepository.GetPagedAuthorsAsync(pageNumber, pageSize);
+        var model = await _authorRepository.GetPagedAuthorsAsync(pageSize, pageNumber);
 
         return View(model);
     }

@@ -17,17 +17,19 @@ public class PostsController : Controller
     private readonly ILogger<PostsController> _logger;
     private readonly IBlogRepository _blogRepository;
     private readonly IMediaManager _mediaManager;
-  
+    private readonly IAuthorRepository _authorRepository;
     private readonly IMapper _mapper;
     private readonly IValidator<PostEditModel> _postValidator;
 
-    public PostsController(IBlogRepository blogRepository,IValidator<PostEditModel> postValidator,ILogger<PostsController> logger, IMediaManager mediaManager, IMapper mapper)
+    public PostsController(IBlogRepository blogRepository,IValidator<PostEditModel> postValidator, ILogger<PostsController> logger, IMediaManager mediaManager, IMapper mapper, IAuthorRepository authorRepository)
     {
         _postValidator = postValidator;
         _logger = logger;
         _blogRepository = blogRepository;
         _mediaManager = mediaManager;
+        _authorRepository = authorRepository;
         _mapper = mapper;
+        _authorRepository = authorRepository;
     }
     public async Task<IActionResult> Index(
         PostFilterModel model,
@@ -76,7 +78,7 @@ public class PostsController : Controller
     #region PopulatePostFilterModelAsync
     private async Task PopulatePostFilterModelAsync(PostFilterModel model)
     {
-        var authors = await _blogRepository.GetAuthorsAsync();
+        var authors = await _authorRepository.GetAuthorsAsync();
 
         var categories = await _blogRepository.GetCategoriesAsync();
 
@@ -159,7 +161,7 @@ public class PostsController : Controller
 
     private async Task PopulatePostEditModelAsync(PostEditModel model)
     {
-        var authors = await _blogRepository.GetAuthorsAsync();
+        var authors = await _authorRepository.GetAuthorsAsync();
 
         var categories = await _blogRepository.GetCategoriesAsync();
 

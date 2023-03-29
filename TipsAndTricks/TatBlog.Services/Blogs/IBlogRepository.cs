@@ -120,13 +120,13 @@ public interface IBlogRepository
     #endregion
 
 
-    Task <Author> GetAuthorbySlugAsync(
-       string slug,
-       CancellationToken cancellationToken = default);
+    //Task <Author> GetAuthorbySlugAsync(
+    //   string slug,
+    //   CancellationToken cancellationToken = default);
 
 
     #region getAuthorAsync
-    Task<IList<AuthorItem>> GetAuthorsAsync(CancellationToken cancellationToken = default);
+    //Task<IList<AuthorItem>> GetAuthorsAsync(CancellationToken cancellationToken = default);
     #endregion
 
     #region lấy bài tất cả những gì có trong bài post
@@ -175,13 +175,19 @@ public interface IBlogRepository
     //    CancellationToken cancellationToken = default);
 
 
-    Task<IPagedList<AuthorItem>> GetPagedAuthorsAsync(
-         int pageNumber = 1,
-        int pageSize = 10,
-        CancellationToken cancellationToken = default);
+    //Task<IPagedList<AuthorItem>> GetPagedAuthorsAsync(
+    //     int pageNumber = 1,
+    //    int pageSize = 10,
+    //    CancellationToken cancellationToken = default);
     Task<bool> DeleteAuthorAsync(
         int authorId, CancellationToken cancellationToken = default);
 
     Task<IPagedList<TagItem>> GetPagedTagsAsync(int pageNumber = 1, int pageSize = 10, CancellationToken cancellationToken = default);
+
+    Task<IPagedList<T>> GetPagedPostsAsync<T>(
+            PostQuery pq,
+            IPagingParams pagingParams,
+            Func<IQueryable<Post>, IQueryable<T>> mapper,
+            CancellationToken cancellationToken = default);
 }
 

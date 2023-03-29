@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TatBlog.Services.Blogs;
+using TatBlog.Services.Media;
 
 namespace TatBlog.WebApp.Components
 {
     public class BestAuthor : ViewComponent
     {
         private readonly IBlogRepository _blogRepository;
-        public BestAuthor(IBlogRepository blogRepository)
+        private readonly IAuthorRepository _authorRepository;
+        public BestAuthor(IBlogRepository blogRepository, IAuthorRepository authorRepository)
         {
             _blogRepository = blogRepository;
+            _authorRepository = authorRepository;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
