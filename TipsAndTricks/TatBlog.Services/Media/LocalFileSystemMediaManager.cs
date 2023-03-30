@@ -34,7 +34,7 @@ namespace TatBlog.Services.Media
                 await using var fileStream = new FileStream(
                     fullPath, FileMode.Create);
                 await buffer.CopyToAsync(fileStream, cancellationToken);
-                return returnedFilePath;
+                return returnedFilePath;    
             }
             catch (Exception ex)
             {

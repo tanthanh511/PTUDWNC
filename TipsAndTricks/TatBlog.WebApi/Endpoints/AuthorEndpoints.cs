@@ -24,6 +24,7 @@ namespace TatBlog.WebApi.Endpoints
             routeGroupBuilder.MapGet("/", GetAuthors)
                 .WithName("GetAuthors")
                 .Produces<PaginationResult<AuthorItem>>();
+
             routeGroupBuilder.MapGet("/{id:int}", GetAuthorDetails)
                 .WithName("GetAuthorById")
                 .Produces<AuthorItem>()
@@ -34,6 +35,7 @@ namespace TatBlog.WebApi.Endpoints
                 GetPostsByAuthorSlug)
                 .WithName("GetPostsByAuthorSlug")
                 .Produces<PaginationResult<PostDto>>();
+
             routeGroupBuilder.MapPost("/", AddAuthor)
                 .WithName("AddNewAuthor")
                 .Produces(201)
