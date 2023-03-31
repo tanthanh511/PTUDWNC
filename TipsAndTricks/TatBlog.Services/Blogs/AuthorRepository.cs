@@ -93,6 +93,8 @@ public class AuthorRepository : IAuthorRepository
 			})
 			.ToPagedListAsync(pagingParams, cancellationToken);
 	}
+
+
     public async Task<IPagedList<AuthorItem>> GetPagedAuthorsAsync(
         int pageSize= 10 , int pageNumber= 1,
 		string name = null,
@@ -177,4 +179,23 @@ public class AuthorRepository : IAuthorRepository
 				x.SetProperty(a => a.ImageUrl, a => imageUrl), 
 				cancellationToken) > 0;
 	}
+
+    public async Task<IPagedList<AuthorItem>> GetPagedBestAuthorsAsync(IPagingParams pagingParams, int amount = 1, CancellationToken cancellationToken = default)
+    {
+        return await _context.Set<Author>()
+            .AsNoTracking()
+            .OrderByDescending(a => a.Posts.Count())
+            .Take(amount)
+            .Select(a => new AuthorItem()
+            {
+                Id = a.Id,
+                FullName = a.FullName,
+                Email = a.Email,
+                JoinedDate = a.JoinedDate,
+                ImageUrl = a.ImageUrl,
+                UrlSlug = a.UrlSlug,
+                PostCount = a.Posts.Count(p => p.Publisded)
+            })
+            .ToPagedListAsync(pagingParams, cancellationToken);
+    }
 }
