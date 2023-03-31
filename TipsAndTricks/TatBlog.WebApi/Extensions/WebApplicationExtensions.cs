@@ -20,10 +20,11 @@ namespace TatBlog.WebApi.Extensions
             builder.Services.AddScoped<IBlogRepository, BlogRepository>();
             builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IPostRepository, PostRepository>();
             builder.Services.AddScoped<IMediaManager, LocalFileSystemMediaManager>();
             return builder;
         }
-
+        
         public static WebApplicationBuilder ConfigureCors(this WebApplicationBuilder builder)
         {
             builder.Services.AddCors(options =>
