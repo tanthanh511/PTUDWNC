@@ -22,24 +22,6 @@ namespace TatBlog.Services.Blogs
             _memoryCache = memoryCache;
         }
 
-        public async Task<Post> GetPostBySlugAsync(
-            string slug, CancellationToken cancellationToken = default)
-        {
-            return await _context.Set<Post>()
-                .FirstOrDefaultAsync(a => a.UrlSlug == slug, cancellationToken);
-        }
-
-        public async Task<Post> GetCachedPostBySlugAsync(
-            string slug, CancellationToken cancellationToken = default)
-        {
-            return await _memoryCache.GetOrCreateAsync(
-                $"post.by-slug.{slug}",
-                async (entry) =>
-                {
-                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
-                    return await GetPostBySlugAsync(slug, cancellationToken);
-                });
-        }
 
         public async Task<Post> GetPostByIdAsync(int postId)
         {
@@ -57,78 +39,9 @@ namespace TatBlog.Services.Blogs
                 });
         }
 
-        public async Task<IList<PostItem>> GetPostsAsync(
-            CancellationToken cancellationToken = default)
-        {
-            return await _context.Set<Post>()
-                .OrderBy(a => a.Title)
-                .Select(a => new PostItem()
-                {
-                    Id = a.Id,
-                    Title = a.Title,
-                    UrlSlug = a.UrlSlug,
-                    Description = a.Description,
-                    ShortDesciption = a.ShortDesciption,
-                    Meta = a.Meta,
-                    ImageUrl = a.ImageUrl,
-                    Viewcount = a.Viewcount,
-                    CategoryName = a.Category.Name,
-                    Publisded = a.Publisded
-                   // PostCount = a.Tags.Count(p => p.)
-                })
-                .ToListAsync(cancellationToken);
-        }
+        
 
-        public async Task<IPagedList<PostItem>> GetPagedPostsAsync(
-            IPagingParams pagingParams,
-            string title = null,
-            CancellationToken cancellationToken = default)
-        {
-            return await _context.Set<Post>()
-                .AsNoTracking()
-                .WhereIf(!string.IsNullOrWhiteSpace(title),
-                    x => x.Title.Contains(title))
-                .Select(a => new PostItem()
-                {
-                    Id = a.Id,
-                    Title = a.Title,
-                    UrlSlug = a.UrlSlug,
-                    Description = a.Description,
-                    ShortDesciption = a.ShortDesciption,
-                    Meta = a.Meta,
-                    ImageUrl = a.ImageUrl,
-                    Viewcount = a.Viewcount,
-                    CategoryName = a.Category.Name,
-                    Publisded = a.Publisded
-                })
-                .ToPagedListAsync(pagingParams, cancellationToken);
-        }
-        public async Task<IPagedList<PostItem>> GetPagedPostsAsync(
-            int pageSize = 10, int pageNumber = 1,
-            string title = null,
-            CancellationToken cancellationToken = default)
-        {
-            return await _context.Set<Post>()
-                .AsNoTracking()
-                .WhereIf(!string.IsNullOrWhiteSpace(title),
-                    x => x.Title.Contains(title))
-                .Select(a => new PostItem()
-                {
-
-                    Id = a.Id,
-                    Title = a.Title,
-                    UrlSlug = a.UrlSlug,
-                    Description = a.Description,
-                    ShortDesciption = a.ShortDesciption,
-                    Meta = a.Meta,
-                    ImageUrl = a.ImageUrl,
-                    Viewcount = a.Viewcount,
-                    CategoryName = a.Category.Name,
-                    Publisded = a.Publisded
-                })
-                .ToPagedListAsync(pageSize, pageNumber, nameof(Post.Title), "DESC", cancellationToken);
-        }
-
+        //  giu
         public async Task<bool> AddOrUpdateAsync(
             Post post, CancellationToken cancellationToken = default)
         {
@@ -146,6 +59,7 @@ namespace TatBlog.Services.Blogs
             return await _context.SaveChangesAsync(cancellationToken) > 0;
         }
 
+        // giu
         public async Task<bool> DeletePostAsync(
             int postId, CancellationToken cancellationToken = default)
         {
@@ -154,42 +68,34 @@ namespace TatBlog.Services.Blogs
                 .ExecuteDeleteAsync(cancellationToken) > 0;
         }
 
+
+        // giu
         public async Task<bool> IsPostSlugExistedAsync(
             int postId,
             string slug,
             CancellationToken cancellationToken = default)
         {
-            return await _context.Categories
+            return await _context.Posts
                 .AnyAsync(x => x.Id != postId && x.UrlSlug == slug, cancellationToken);
         }
 
-        public async Task<IPagedList<T>> GetPagedCategoriesAsync<T>(
-            Func<IQueryable<Post>,
-            IQueryable<T>> mapper,
-            IPagingParams pagingParams,
-            string title = null,
-            CancellationToken cancellationToken = default)
-        {
-            var postQuery = _context.Set<Post>().AsNoTracking();
+        //public async Task<IPagedList<T>> GetPagedCategoriesAsync<T>(
+        //    Func<IQueryable<Post>,
+        //    IQueryable<T>> mapper,
+        //    IPagingParams pagingParams,
+        //    string title = null,
+        //    CancellationToken cancellationToken = default)
+        //{
+        //    var postQuery = _context.Set<Post>().AsNoTracking();
 
-            if (!string.IsNullOrEmpty(title))
-            {
-                postQuery = postQuery.Where(x => x.Title.Contains(title));
-            }
+        //    if (!string.IsNullOrEmpty(title))
+        //    {
+        //        postQuery = postQuery.Where(x => x.Title.Contains(title));
+        //    }
 
-            return await mapper(postQuery)
-                .ToPagedListAsync(pagingParams, cancellationToken);
-        }
-
-        public Task<IPagedList<T>> GetPagedPostsAsync<T>(Func<IQueryable<Post>, IQueryable<T>> mapper, IPagingParams pagingParams, string name = null, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IPagedList<Post>> GetPagedPostsAsync(PostQuery condition, IPagingParams pagingParams, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
+        //    return await mapper(postQuery)
+        //        .ToPagedListAsync(pagingParams, cancellationToken);
+        //}
 
         public async Task<IPagedList<T>> GetPagedPostAsync<T>(PostQuery pq, IPagingParams pagingParams, Func<IQueryable<Post>, IQueryable<T>> mapper, CancellationToken cancellationToken = default)
         {
@@ -200,21 +106,6 @@ namespace TatBlog.Services.Blogs
         }
         public IQueryable<Post> FilterPost(PostQuery condition)
         {
-            //    var query = _context.Set<Post>()
-            //        .Include(c => c.Category)
-            //        .Include(t => t.Tags)
-            //        .Include(a => a.Author);
-            //    return query.WhereIf(condition.AuthorId > 0, p => p.AuthorId == condition.AuthorId)
-            //        .WhereIf(!string.IsNullOrWhiteSpace(condition.AuthorSlug), p => p.Author.UrlSlug == condition.AuthorSlug)
-            //        .WhereIf(condition.PostId > 0, p => p.Id == condition.PostId)
-            //        .WhereIf(condition.CategoryId > 0, p => p.CategoryId == condition.CategoryId)
-            //        .WhereIf(!string.IsNullOrWhiteSpace(condition.CategorySlug), p => p.Category.UrlSlug == condition.CategorySlug)
-            //        .WhereIf(condition.PostedYear > 0, p => p.PostedDate.Year == condition.PostedYear)
-            //        .WhereIf(condition.PostedMonth > 0, p => p.PostedDate.Month == condition.PostedMonth)
-            //        .WhereIf(condition.TagId > 0, p => p.Tags.Any(x => x.Id == condition.TagId))
-            //        .WhereIf(!string.IsNullOrWhiteSpace(condition.TagSlug), p => p.Tags.Any(x => x.UrlSlug == condition.TagSlug))
-            //        .WhereIf(condition.PublishedOnly != null, p => p.Publisded == condition.PublishedOnly);
-
             IQueryable<Post> posts = _context.Set<Post>()
             .Include(x => x.Category)
             .Include(x => x.Author)
@@ -292,15 +183,112 @@ namespace TatBlog.Services.Blogs
 
         }
 
-        //public async Task<bool> SetImageUrlAsync(
-        //	int authorId, string imageUrl,
-        //	CancellationToken cancellationToken = default)
-        //{
-        //	return await _context.Authors
-        //		.Where(x => x.Id == authorId)
-        //		.ExecuteUpdateAsync(x => 
-        //			x.SetProperty(a => a.ImageUrl, a => imageUrl), 
-        //			cancellationToken) > 0;
-        //}
+        // giu
+        public async Task<bool> SetImageUrlAsync(
+            int postId, string imageUrl,
+            CancellationToken cancellationToken = default)
+        {
+            return await _context.Posts
+                .Where(x => x.Id == postId)
+                .ExecuteUpdateAsync(x =>
+                    x.SetProperty(a => a.ImageUrl, a => imageUrl),
+                    cancellationToken) > 0;
+        }
+
+       
+     
     }
 }
+
+
+//public async Task<IList<Post>> GetPostsAsync(
+//    CancellationToken cancellationToken = default)
+//{
+//    return await _context.Set<Post>()
+//        .OrderBy(a => a.Title)
+//        .Select(a => new Post()
+//        {
+//            Id = a.Id,
+//            Title = a.Title,
+//            UrlSlug = a.UrlSlug,
+//            Description = a.Description,
+//            ShortDesciption = a.ShortDesciption,
+//            Meta = a.Meta,
+//            ImageUrl = a.ImageUrl,
+//            Viewcount = a.Viewcount,
+//         //   CategoryName = a.Category.Name,
+//            Publisded = a.Publisded
+//           // PostCount = a.Tags.Count(p => p.)
+//        })
+//        .ToListAsync(cancellationToken);
+//}
+
+//public async Task<IPagedList<PostItem>> GetPagedPostsAsync(
+//    IPagingParams pagingParams,
+//    string title = null,
+//    CancellationToken cancellationToken = default)
+//{
+//    return await _context.Set<Post>()
+//        .AsNoTracking()
+//        .WhereIf(!string.IsNullOrWhiteSpace(title),
+//            x => x.Title.Contains(title))
+//        .Select(a => new PostItem()
+//        {
+//            Id = a.Id,
+//            Title = a.Title,
+//            UrlSlug = a.UrlSlug,
+//            Description = a.Description,
+//            ShortDesciption = a.ShortDesciption,
+//            Meta = a.Meta,
+//            ImageUrl = a.ImageUrl,
+//            Viewcount = a.Viewcount,
+//            CategoryName = a.Category.Name,
+//            Publisded = a.Publisded
+//        })
+//        .ToPagedListAsync(pagingParams, cancellationToken);
+//}
+//public async Task<IPagedList<PostItem>> GetPagedPostsAsync(
+//    int pageSize = 10, int pageNumber = 1,
+//    string title = null,
+//    CancellationToken cancellationToken = default)
+//{
+//    return await _context.Set<Post>()
+//        .AsNoTracking()
+//        .WhereIf(!string.IsNullOrWhiteSpace(title),
+//            x => x.Title.Contains(title))
+//        .Select(a => new PostItem()
+//        {
+
+//            Id = a.Id,
+//            Title = a.Title,
+//            UrlSlug = a.UrlSlug,
+//            Description = a.Description,
+//            ShortDesciption = a.ShortDesciption,
+//            Meta = a.Meta,
+//            ImageUrl = a.ImageUrl,
+//            Viewcount = a.Viewcount,
+//            CategoryName = a.Category.Name,
+//            Publisded = a.Publisded
+//        })
+//        .ToPagedListAsync(pageSize, pageNumber, nameof(Post.Title), "DESC", cancellationToken);
+//}
+
+
+//public async Task<Post> GetPostBySlugAsync(
+//    string slug, CancellationToken cancellationToken = default)
+//{
+//    return await _context.Set<Post>()
+//        .FirstOrDefaultAsync(a => a.UrlSlug == slug, cancellationToken);
+//}
+
+//public async Task<Post> GetCachedPostBySlugAsync(
+//    string slug, CancellationToken cancellationToken = default)
+//{
+//    return await _memoryCache.GetOrCreateAsync(
+//        $"post.by-slug.{slug}",
+//        async (entry) =>
+//        {
+//            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
+//            return await GetPostBySlugAsync(slug, cancellationToken);
+//        });
+//}

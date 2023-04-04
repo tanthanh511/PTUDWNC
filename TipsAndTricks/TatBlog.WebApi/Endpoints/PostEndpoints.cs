@@ -41,11 +41,13 @@ namespace TatBlog.WebApi.Endpoints
                 .Produces(201)
                 .Produces(400)
                 .Produces(409);
-            //routeGroupBuilder.MapPost("/{id:int}/avatar", SetCategoryPicture)
-            //   .WithName("SetCategoryPicture")
-            //   .Accepts<IFormFile>("multipart/form-data")
-            //   .Produces<string>()
-            //   .Produces(400);
+
+            routeGroupBuilder.MapPost("/{id:int}/avatar", SetPostPicture)
+               .WithName("SetPostPicture")
+               .Accepts<IFormFile>("multipart/form-data")
+               .Produces<string>()
+               .Produces(400);
+
             routeGroupBuilder.MapPut("/{id:int}", UpdatePost)
                .WithName("UpdateAnPost")
                .Produces(204)
@@ -61,7 +63,6 @@ namespace TatBlog.WebApi.Endpoints
         private static async Task<IResult> GetPosts(
             [AsParameters] PostFilterModel model,
             IPostRepository postRepository,
-            //IBlogRepository blogRepository,
               IMapper mapper)
         {
             var postQuery = mapper.Map<PostQuery>(model);
@@ -76,26 +77,26 @@ namespace TatBlog.WebApi.Endpoints
 
         private static async Task<IResult> GetPostDetails(
             int id,
-            ICategoryRepository categoryRepository,
+            IPostRepository postRepository,
             IMapper mapper)
         {
-            var category = await categoryRepository.GetCachedCategoryByIdAsync(id);
-            return category == null
-                ? Results.NotFound($"khong tim thay chu de co ma so {id}")
-                : Results.Ok(mapper.Map<CategoryItem>(category));
+            var post = await postRepository.GetCachedPostByIdAsync(id);
+            return post == null
+                ? Results.NotFound($"khong tim thaybai viet co ma so {id}")
+                : Results.Ok(mapper.Map<PostItem>(post));
         }
 
         private static async Task<IResult> GetPostsByPostId(
             int id,
             [AsParameters] PagingModel pagingModel,
-            IBlogRepository blogRepository)
+            IPostRepository postRepository)
         {
             var postQuery = new PostQuery()
             {
                 Id = id,
                 PublishedOnly = true,
             };
-            var postsList = await blogRepository.GetPagedPostsAsync(
+            var postsList = await postRepository.GetPagedPostAsync(
                 postQuery, pagingModel,
                 posts => posts.ProjectToType<PostDto>());
 
@@ -106,14 +107,14 @@ namespace TatBlog.WebApi.Endpoints
         private static async Task<IResult> GetPostsBySlug(
             [FromRoute] string slug,
             [AsParameters] PagingModel pagingModel,
-            IBlogRepository blogRepository)
+            IPostRepository postRepository)
         {
             var postQuery = new PostQuery()
             {
                 PostSlug = slug,
                 PublishedOnly = true,
             };
-            var postsList = await blogRepository.GetPagedPostsAsync(
+            var postsList = await postRepository.GetPagedPostAsync(
                 postQuery, pagingModel,
                 posts => posts.ProjectToType<PostDto>());
             var paginationResult = new PaginationResult<PostDto>(postsList);
@@ -141,26 +142,26 @@ namespace TatBlog.WebApi.Endpoints
             var post = mapper.Map<Post>(model);
             await postRepository.AddOrUpdateAsync(post);
             return Results.CreatedAtRoute(
-                "GetCategoryById", new { post.Id },
+                "GetPostById", new { post.Id },
                 mapper.Map<PostItem>(post));
 
         }
 
-        //private static async Task<IResult> SetCategoryPicture(
-        //    int id, IFormFile imageFile,
-        //    IAuthorRepository authorRepository,
-        //    IMediaManager mediaManager)
-        //{
-        //    var imageUrl = await mediaManager.SaveFileAsync(
-        //        imageFile.OpenReadStream(),
-        //        imageFile.FileName, imageFile.ContentType);
-        //    if (string.IsNullOrWhiteSpace(imageUrl))
-        //    {
-        //        return Results.BadRequest("khong luu duoc tap tin");
-        //    }
-        //    await authorRepository.SetImageUrlAsync(id, imageUrl);
-        //    return Results.Ok(imageUrl);
-        //}
+        private static async Task<IResult> SetPostPicture(
+            int id, IFormFile imageFile,
+            IPostRepository postRepository,
+            IMediaManager mediaManager)
+        {
+            var imageUrl = await mediaManager.SaveFileAsync(
+                imageFile.OpenReadStream(),
+                imageFile.FileName, imageFile.ContentType);
+            if (string.IsNullOrWhiteSpace(imageUrl))
+            {
+                return Results.BadRequest("khong luu duoc tap tin");
+            }
+            await postRepository.SetImageUrlAsync(id, imageUrl);
+            return Results.Ok(imageUrl);
+        }
 
         private static async Task<IResult> UpdatePost(
             int id, PostEditModel model,

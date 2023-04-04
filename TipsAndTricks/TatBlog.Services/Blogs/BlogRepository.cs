@@ -708,8 +708,10 @@ namespace TatBlog.Services.Blogs
         public Task<IPagedList<TagItem>> GetPagedTagsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
-        }
+        }   
 
+
+      
         public async Task<IPagedList<T>> GetPagedPostsAsync<T>(PostQuery pq, IPagingParams pagingParams, Func<IQueryable<Post>, IQueryable<T>> mapper, CancellationToken cancellationToken = default)
         {
             

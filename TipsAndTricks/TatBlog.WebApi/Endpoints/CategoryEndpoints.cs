@@ -41,11 +41,7 @@ namespace TatBlog.WebApi.Endpoints
                 .Produces(201)
                 .Produces(400)
                 .Produces(409);
-            //routeGroupBuilder.MapPost("/{id:int}/avatar", SetCategoryPicture)
-            //   .WithName("SetCategoryPicture")
-            //   .Accepts<IFormFile>("multipart/form-data")
-            //   .Produces<string>()
-            //   .Produces(400);
+          
             routeGroupBuilder.MapPut("/{id:int}", UpdateCategory)
                .WithName("UpdateAnCategory")
                .Produces(204)
@@ -139,22 +135,6 @@ namespace TatBlog.WebApi.Endpoints
                 mapper.Map<CategoryItem>(category));
 
         }
-
-        //private static async Task<IResult> SetCategoryPicture(
-        //    int id, IFormFile imageFile,
-        //    IAuthorRepository authorRepository,
-        //    IMediaManager mediaManager)
-        //{
-        //    var imageUrl = await mediaManager.SaveFileAsync(
-        //        imageFile.OpenReadStream(),
-        //        imageFile.FileName, imageFile.ContentType);
-        //    if (string.IsNullOrWhiteSpace(imageUrl))
-        //    {
-        //        return Results.BadRequest("khong luu duoc tap tin");
-        //    }
-        //    await authorRepository.SetImageUrlAsync(id, imageUrl);
-        //    return Results.Ok(imageUrl);
-        //}
 
         private static async Task<IResult> UpdateCategory(
             int id, CategoryEditModel model,

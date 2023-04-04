@@ -32,11 +32,7 @@ namespace TatBlog.WebApi.Validations
                .MaximumLength(100)
                .WithMessage("Description chua toi da 100 ky tu ");
 
-            RuleFor(a => a.ShortDesciption)
-               .NotEmpty()
-               .WithMessage("Description khong duoc de trong")
-               .MaximumLength(100)
-               .WithMessage("Description chua toi da 100 ky tu ");
+         
 
 
 
