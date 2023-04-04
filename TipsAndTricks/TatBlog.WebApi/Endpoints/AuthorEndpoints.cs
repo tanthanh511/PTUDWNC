@@ -30,6 +30,12 @@ namespace TatBlog.WebApi.Endpoints
                 .Produces<AuthorItem>()
                 .Produces(404);
 
+
+            routeGroupBuilder.MapGet("/best/{limit}", GetNBestPostsByAuthor)
+                .WithName("GetNBestPostsByAuthor")
+                .Produces<PaginationResult<AuthorItem>>()
+                .Produces(404);
+
             routeGroupBuilder.MapGet(
                 "/{slug:regex(^[a-z0-9_-]+$)}/posts",
                 GetPostsByAuthorSlug)
@@ -64,6 +70,17 @@ namespace TatBlog.WebApi.Endpoints
         {
             var authorsList = await authorRepository
                 .GetPagedAuthorsAsync(model, model.Name);
+            var paginationResult = new PaginationResult<AuthorItem>(authorsList);
+            return Results.Ok(paginationResult);
+        }
+
+        private static async Task<IResult> GetNBestPostsByAuthor(
+            int limit,
+         [AsParameters] AuthorFilterModel model,
+         IAuthorRepository authorRepository)
+        {
+            var authorsList = await authorRepository
+                .GetPagedBestAuthorsAsync(model, limit);
             var paginationResult = new PaginationResult<AuthorItem>(authorsList);
             return Results.Ok(paginationResult);
         }
