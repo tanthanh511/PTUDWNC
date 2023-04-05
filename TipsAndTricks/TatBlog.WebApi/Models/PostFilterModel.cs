@@ -2,6 +2,6 @@
 {
     public class PostFilterModel :PagingModel
     {
-        public string Titel { get; set; }
+        public string Keyword { get; set; }
     }
 }
