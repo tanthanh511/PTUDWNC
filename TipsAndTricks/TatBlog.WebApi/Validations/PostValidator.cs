@@ -13,11 +13,11 @@ namespace TatBlog.WebApi.Validations
                 .MaximumLength(100)
                 .WithMessage("ten tac gia toi da 100 ky tu");
 
-            RuleFor(a => a.UrlSlug)
-               .NotEmpty()
-               .WithMessage("Urlslug khong duoc de trong")
-               .MaximumLength(100)
-               .WithMessage("Urlslug toi da 100 ky tu");
+            //RuleFor(a => a.UrlSlug)
+            //   .NotEmpty()
+            //   .WithMessage("Urlslug khong duoc de trong")
+            //   .MaximumLength(100)
+            //   .WithMessage("Urlslug toi da 100 ky tu");
 
 
             RuleFor(a => a.ShortDesciption)

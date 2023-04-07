@@ -3,6 +3,8 @@ using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Net;
 using TatBlog.Core.Collections;
 using TatBlog.Core.Constants;
 using TatBlog.Core.DTO;
@@ -10,6 +12,7 @@ using TatBlog.Core.Entities;
 using TatBlog.Services.Blogs;
 using TatBlog.Services.Media;
 using TatBlog.WebApi.Extensions;
+using TatBlog.WebApi.Filters;
 using TatBlog.WebApi.Models;
 
 namespace TatBlog.WebApi.Endpoints
@@ -23,44 +26,49 @@ namespace TatBlog.WebApi.Endpoints
 
             routeGroupBuilder.MapGet("/", GetAuthors)
                 .WithName("GetAuthors")
-                .Produces<PaginationResult<AuthorItem>>();
+                .Produces<ApiResponse<PaginationResult<AuthorItem>>>();
 
             routeGroupBuilder.MapGet("/{id:int}", GetAuthorDetails)
                 .WithName("GetAuthorById")
-                .Produces<AuthorItem>()
-                .Produces(404);
+                .Produces<ApiResponse<AuthorItem>>();
+                //.Produces(404);
 
 
             routeGroupBuilder.MapGet("/best/{limit}", GetNBestPostsByAuthor)
                 .WithName("GetNBestPostsByAuthor")
-                .Produces<PaginationResult<AuthorItem>>()
-                .Produces(404);
+                .Produces<ApiResponse<PaginationResult<AuthorItem>>>()
+                .Produces(401);
 
             routeGroupBuilder.MapGet(
                 "/{slug:regex(^[a-z0-9_-]+$)}/posts",
                 GetPostsByAuthorSlug)
                 .WithName("GetPostsByAuthorSlug")
-                .Produces<PaginationResult<PostDto>>();
+                .Produces<ApiResponse<PaginationResult<PostDto>>>();
 
             routeGroupBuilder.MapPost("/", AddAuthor)
+                .AddEndpointFilter< ValidatorFilter<AuthorEditModel>>()
                 .WithName("AddNewAuthor")
-                .Produces(201)
-                .Produces(400)
-                .Produces(409);
+                //.Produces(201)
+                .Produces(401)
+                //.Produces(409);
+                .Produces<ApiResponse<AuthorItem>>();
+
             routeGroupBuilder.MapPost("/{id:int}/avatar", SetAuthorPicture)
                .WithName("SetAuthorPicture")
                .Accepts<IFormFile>("multipart/form-data")
-               .Produces<string>()
-               .Produces(400);
+               .Produces<ApiResponse<string>>()
+               .Produces(401);
+
             routeGroupBuilder.MapPut("/{id:int}", UpdateAuthor)
                .WithName("UpdateAnAuthor")
-               .Produces(204)
-               .Produces(400)
-               .Produces(409);
+               .Produces(401)
+               .Produces<ApiResponse<string>>();
+               //.Produces(400)
+               //.Produces(409);
             routeGroupBuilder.MapDelete("/{id:int}", DeleteAuthor)
                .WithName("DeleteAnAuthor")
-               .Produces(204)
-               .Produces(404);
+               .Produces(401)
+               .Produces<ApiResponse<string>>();
             return app;
         }
 
@@ -71,7 +79,7 @@ namespace TatBlog.WebApi.Endpoints
             var authorsList = await authorRepository
                 .GetPagedAuthorsAsync(model, model.Name);
             var paginationResult = new PaginationResult<AuthorItem>(authorsList);
-            return Results.Ok(paginationResult);
+            return Results.Ok(ApiResponse.Success(paginationResult));
         }
 
         private static async Task<IResult> GetNBestPostsByAuthor(
@@ -82,7 +90,7 @@ namespace TatBlog.WebApi.Endpoints
             var authorsList = await authorRepository
                 .GetPagedBestAuthorsAsync(model, limit);
             var paginationResult = new PaginationResult<AuthorItem>(authorsList);
-            return Results.Ok(paginationResult);
+            return Results.Ok(ApiResponse.Success(paginationResult));
         }
 
         private static async Task<IResult> GetAuthorDetails(
@@ -92,8 +100,8 @@ namespace TatBlog.WebApi.Endpoints
         {
             var author = await authorRepository.GetCachedAuthorByIdAsync(id);
             return author == null
-                ? Results.NotFound($"khong tim thay tac gia co ma so {id}")
-                : Results.Ok(mapper.Map<AuthorItem>(author));
+                ? Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound,$"khong tim thay tac gia co ma so {id}"))
+                : Results.Ok(ApiResponse.Success(mapper.Map<AuthorItem>(author)));
         }
 
         private static async Task<IResult> GetPostsByAuthorId(
@@ -111,7 +119,7 @@ namespace TatBlog.WebApi.Endpoints
                 posts => posts.ProjectToType<PostDto>());
 
             var paginationResult = new PaginationResult<PostDto>(postsList);
-            return Results.Ok(paginationResult);
+            return Results.Ok(ApiResponse.Success(paginationResult));
         }
 
         private static async Task<IResult> GetPostsByAuthorSlug(
@@ -128,7 +136,7 @@ namespace TatBlog.WebApi.Endpoints
                 postQuery, pagingModel,
                 posts => posts.ProjectToType<PostDto>());
             var paginationResult = new PaginationResult<PostDto>(postsList);
-            return Results.Ok(paginationResult);
+            return Results.Ok(ApiResponse.Success(paginationResult));
         }
 
 
@@ -138,22 +146,14 @@ namespace TatBlog.WebApi.Endpoints
             IValidator<AuthorEditModel> validator,
             IAuthorRepository authorRepository,
             IMapper mapper)
-        {
-            var validationResult = await validator.ValidateAsync(model);
-            if (!validationResult.IsValid)
-            {
-                return Results.BadRequest(
-                    validationResult.Errors.ToResponse() );
-            }    
+        {           
             if (await authorRepository.IsAuthorSlugExistedAsync(0, model.UrlSlug))
             {
-                return Results.Conflict($"Slug'{model.UrlSlug}' da duoc su dung");
+                return Results.Ok(ApiResponse.Fail(HttpStatusCode.Conflict,$"Slug'{model.UrlSlug}' da duoc su dung"));
             }
             var author = mapper.Map<Author>(model);
             await authorRepository.AddOrUpdateAsync(author);
-            return Results.CreatedAtRoute(
-                "GetAuthorById", new { author.Id },
-                mapper.Map<AuthorItem>(author));
+            return Results.Ok(ApiResponse.Success(mapper.Map<AuthorItem>(author), HttpStatusCode.Created));
                 
         }
 
@@ -164,13 +164,14 @@ namespace TatBlog.WebApi.Endpoints
         {
             var imageUrl = await mediaManager.SaveFileAsync(
                 imageFile.OpenReadStream(),
-                imageFile.FileName, imageFile.ContentType);
+                imageFile.FileName,
+                imageFile.ContentType);
             if(string.IsNullOrWhiteSpace(imageUrl))
             {
-                return Results.BadRequest("khong luu duoc tap tin");
+                return Results.Ok(ApiResponse.Fail(HttpStatusCode.BadRequest,"khong luu duoc tap tin"));
             }
             await authorRepository.SetImageUrlAsync(id, imageUrl);
-            return Results.Ok(imageUrl);
+            return Results.Ok(ApiResponse.Success(imageUrl));
         }
 
         private static async Task<IResult> UpdateAuthor(
@@ -182,31 +183,31 @@ namespace TatBlog.WebApi.Endpoints
             var validationResult = await validator.ValidateAsync(model);
             if (!validationResult.IsValid)
             {
-                return Results.BadRequest(
-                    validationResult.Errors.ToResponse());
+                return Results.Ok(ApiResponse.Fail(HttpStatusCode.BadRequest, validationResult));
             }
 
             if (await authorRepository
                 .IsAuthorSlugExistedAsync(id, model.UrlSlug))
             {
-                return Results.Conflict(
-                    $"Slug '{model.UrlSlug}' da duoc su dung");
+                return Results.Ok(ApiResponse.Fail(HttpStatusCode.Conflict, $"Slug '{model.UrlSlug}' da duoc su dung"));
             }
             var author = mapper.Map<Author>(model);
             author.Id = id;
 
             return await authorRepository.AddOrUpdateAsync(author)
-                ? Results.NoContent()
-                : Results.NotFound();
+                ? Results.Ok(ApiResponse.Success("author is update", HttpStatusCode.NoContent))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound,"Could not file author"));
         }
 
         private static async Task<IResult> DeleteAuthor(
             int id, IAuthorRepository authorRepository)
         {
             return await authorRepository.DeleteAuthorAsync(id)
-                ? Results.NoContent()
-                : Results.NotFound($"could not find author with id={id}");
+                ? Results.Ok(ApiResponse.Success("author is deleted",HttpStatusCode.NoContent))
+                : Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, "could not find author"));
         }
     }
+
+
     // t còn một cái chưa viết á    
 }

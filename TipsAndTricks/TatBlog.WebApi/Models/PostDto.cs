@@ -20,6 +20,7 @@
         public CategoryDto Category { get; set; }
         // tac gia 
         public AuthorDto Author { get; set; }
+        public bool Published { get; set; }
         public IList<TagDto> Tags { get; set; }
     }
 }

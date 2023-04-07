@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PostItem from '../Components/PostItem';
-import { getPosts } from "../Services/BlogRepository";
+import { GetFilteredPosts } from "../Services/BlogRepository";
 
 
 const Index = () => {
@@ -8,7 +8,7 @@ const Index = () => {
 
     useEffect(() => {
         document.title= 'Trang chu';  
-        getPosts().then(data=>{
+        GetFilteredPosts().then(data=>{
             if(data) {
                 setPostList(data.items); 
             }

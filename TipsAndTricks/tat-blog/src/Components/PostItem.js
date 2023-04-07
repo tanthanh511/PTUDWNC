@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { isEmptyOrSpaces } from "../Utils/Utils";
 
 const PostList = ({postItem})=> {
-    let imageUrl = isEmptyOrSpaces(postItem.imageUrl)
-    ? process.env.PUBLIC_URL + '/images/1.jpg'
-    : `${postItem.imageUrl}`;
+    // let imageUrl = isEmptyOrSpaces(postItem.imageUrl)
+    // ? process.env.PUBLIC_URL + '/images/1.jpg'
+    // : `${postItem.imageUrl}`;
+    let imageUrl = process.env.PUBLIC_URL + '/images/1.jpg';
 
     let postedDate = new Date(postItem.postedDate);
     return (

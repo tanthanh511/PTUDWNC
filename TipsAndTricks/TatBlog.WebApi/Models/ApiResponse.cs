@@ -39,7 +39,7 @@ namespace TatBlog.WebApi.Models
             HttpStatusCode statusCode,
             params string[] errorMessages)
         {
-            if (errorMessages == null || errorMessages.Length == 0 ) 
+            if (errorMessages is null or { Length:0}) 
             { 
                 throw new ArgumentNullException(nameof(errorMessages));
             }
