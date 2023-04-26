@@ -1,5 +1,11 @@
 import { computeHeadingLevel } from "@testing-library/react";
 import axios from "axios";
+import { get_api } from "./Methods";
+
+export function GetFilter(){
+    return get_api(`https://localhost:7044/api/posts/get-filter`);
+}
+
 export async function GetFilteredPosts(){
     try{
         const reponse = await

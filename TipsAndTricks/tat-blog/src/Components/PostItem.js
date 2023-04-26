@@ -8,7 +8,6 @@ const PostList = ({postItem})=> {
     // ? process.env.PUBLIC_URL + '/images/1.jpg'
     // : `${postItem.imageUrl}`;
     let imageUrl = process.env.PUBLIC_URL + '/images/1.jpg';
-
     let postedDate = new Date(postItem.postedDate);
     return (
         <article className="blog-entry mb-4">
@@ -21,14 +20,21 @@ const PostList = ({postItem})=> {
                         <Card.Body>
                             <Card.Title>{postItem.title}</Card.Title>
                             <Card.Text>
+                            <Link
+                                to={`/blog/author&slug=${postItem.author.urlSlug}`}>
                                 <small className="text-muted">Tác giả:</small>
                                 <span className="text-primary m-1">
                                     {postItem.author.fullName}
+                            
                                 </span>
+                            </Link>
+                            <Link
+                                to={`/blog/category&slug=${postItem.category.urlSlug}`}>
                                 <small className="text-muted">Chủ đề:</small>
                                 <span className="text-primary m-1">
                                     {postItem.category.name}
                                 </span>
+                            </Link>
                             </Card.Text>
                             <Card.Text>
                                 {postItem.shortDescription}
@@ -38,7 +44,7 @@ const PostList = ({postItem})=> {
                             </div>
                             <div className="text-end">
                                 <Link
-                                to={`/blog/post?year=${postedDate.getFullYear()}&month=${postedDate.getMonth()}&day=${postedDate.getDay()}&slug=${postItem.urlSlug}`}
+                                to={`/blog/post/${postedDate.getFullYear()}/${postedDate.getMonth()}/${postedDate.getDate()}/${postItem.urlSlug}`}
                                 className="btn btn-primary"
                                 title={postItem.title}>
                                     Xem chi tiet

@@ -35,6 +35,22 @@ namespace TatBlog.WebApi.Endpoints
                 .Produces<ApiResponse<PostItem>>()
                 .Produces(401);
 
+
+            routeGroupBuilder.MapGet("/featured/{limit}", FeaturedPosts)
+                .WithName("FeaturedPosts")
+                .Produces<ApiResponse<PaginationResult<PostDto>>>()
+                .Produces(401);
+
+            routeGroupBuilder.MapGet("/random/{limit}", RandomPosts)
+               .WithName("RandomPosts")
+               .Produces<ApiResponse<PaginationResult<PostDto>>>()
+               .Produces(401);
+
+            routeGroupBuilder.MapGet("/tagcloud", TagCloud)
+             .WithName("TagCloud")
+             .Produces<ApiResponse<PaginationResult<TagDto>>>()
+             .Produces(401);
+
             routeGroupBuilder.MapGet(
                 "/{slug:regex(^[a-z0-9_-]+$)}/posts",
                 GetPostsBySlug)
@@ -66,7 +82,7 @@ namespace TatBlog.WebApi.Endpoints
             routeGroupBuilder.MapGet("/get-posts-filter", GetFilteredPosts)
                .WithName("GetFilteredPosts")
                .Produces<ApiResponse<PostDto>>();
-
+                
             routeGroupBuilder.MapGet("/get-filter", GetFilter)
               .WithName("GetFilter")
               .Produces < ApiResponse<PostFilterModel>>();
@@ -98,7 +114,43 @@ namespace TatBlog.WebApi.Endpoints
                 ? Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound,$"khong tim thaybai viet co ma so {id}"))
                 : Results.Ok(ApiResponse.Success(mapper.Map<PostItem>(post)));
         }
+        // sidebar
+        private static async Task<IResult> FeaturedPosts(
+            int limit ,
+         IPostRepository postRepository,
+         IMapper mapper)
+        {
+            var postsList = await postRepository.GetPopularArticlesAsync(limit);
+            return postsList== null
+                ?Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"khong tim thay bai viet{limit}"))
+                 : Results.Ok(ApiResponse.Success(mapper.Map<List<PostDto>>(postsList)));
+           
+        }
 
+        private static async Task<IResult> RandomPosts(
+           int limit,
+        IPostRepository postRepository,
+        IMapper mapper)
+        {
+            var postsList = await postRepository.GetRandomArticlesAsync(limit);
+            return postsList == null
+                ? Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"khong tim thay bai viet{limit}"))
+                 : Results.Ok(ApiResponse.Success(mapper.Map<List<PostDto>>(postsList)));
+
+        }
+        private static async Task<IResult> TagCloud(
+         
+       IPostRepository postRepository,
+       IMapper mapper)
+        {
+            var postsList = await postRepository.GetTagsAsync();
+            return postsList == null
+                ? Results.Ok(ApiResponse.Fail(HttpStatusCode.NotFound, $"khong tim thay bai viet"))
+                 : Results.Ok(ApiResponse.Success(mapper.Map<List<TagDto>>(postsList)));
+
+        }
+
+        //////////////////////////////////////////////////////
         private static async Task<IResult> GetPostsByPostId(
             int id,
             [AsParameters] PagingModel pagingModel,

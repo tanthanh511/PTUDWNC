@@ -8,6 +8,7 @@
         public string Title { get; set; }
         //mo ta
         public string ShortDescription { get; set; }
+        public string Description { get; set; }
         // ten dinh danh
         public string UrlSlug { get; set; }
         // duong dan den tap tin hinh anh
@@ -16,6 +17,7 @@
         public int ViewCount { get; set; }
         // ngay gio dang bai
         public DateTime? ModifiedDate { get; set; }
+        public DateTime PostedDate { get; set; }
         // chuyen muc 
         public CategoryDto Category { get; set; }
         // tac gia 

@@ -195,8 +195,58 @@ namespace TatBlog.Services.Blogs
                     cancellationToken) > 0;
         }
 
-       
-     
+        public async Task<IList<Post>> GetPopularArticlesAsync(int numPosts, CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Post>()
+                .Include(x => x.Author)
+                .Include(x => x.Category)
+                .OrderByDescending(p => p.Viewcount)
+                .Take(numPosts)
+                .ToListAsync(cancellationToken);
+
+        }
+
+        public async Task<IPagedList<AuthorItem>> GetPagedBestAuthorsAsync(IPagingParams pagingParams, int amount = 1, CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Author>()
+                .AsNoTracking()
+                .OrderByDescending(a => a.Posts.Count())
+                .Take(amount)
+                .Select(a => new AuthorItem()
+                {
+                    Id = a.Id,
+                    FullName = a.FullName,
+                    Email = a.Email,
+                    JoinedDate = a.JoinedDate,
+                    ImageUrl = a.ImageUrl,
+                    UrlSlug = a.UrlSlug,
+                    PostCount = a.Posts.Count(p => p.Publisded)
+                })
+                .ToPagedListAsync(pagingParams, cancellationToken);
+        }
+
+        public async Task<IList<Post>> GetRandomArticlesAsync(int numPosts, CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Post>()
+              .OrderBy(x => Guid.NewGuid())
+              .Take(numPosts)
+              .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IList<TagItem>> GetTagsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Tag>()
+            .OrderBy(x => x.Name)
+            .Select(x => new TagItem()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                UrlSlug = x.UrlSlug,
+                Description = x.Description,
+                PostCount = x.Posts.Count(p => p.Publisded)
+            })
+            .ToListAsync(cancellationToken);
+        }
     }
 }
 

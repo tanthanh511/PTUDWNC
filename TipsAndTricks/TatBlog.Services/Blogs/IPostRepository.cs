@@ -46,10 +46,14 @@ public interface IPostRepository
         int authorId, string imageUrl,
         CancellationToken cancellationToken = default);
 
-    //Task<IPagedList<T>> GetPagedPostsAsync<T>(
-    //    PostQuery pq,
-    //    IPagingParams pagingParams, 
-    //    Func<IQueryable<Post>, 
-    //    IQueryable<T>> mapper,
-    //    CancellationToken cancellationToken = default);
+    Task<IList<Post>> GetPopularArticlesAsync(
+        int numPosts,
+        CancellationToken cancellationToken = default);
+
+    Task<IList<Post>> GetRandomArticlesAsync(
+        int numPosts,
+        CancellationToken cancellationToken = default);
+
+    Task<IList<TagItem>> GetTagsAsync(
+        CancellationToken cancellationToken = default);
 }
